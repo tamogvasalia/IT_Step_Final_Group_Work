@@ -8,6 +8,7 @@ using OnlineBooking.Persistance.UniteOfWorkRelated;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
+using OnlineBooking.Domain.Mapper;
 
 
 
@@ -22,6 +23,8 @@ builder.Services.AddScoped<IbookingRepository, BookRepository>();
 builder.Services.AddScoped<IroomTypeRepository, RoomTypeRepository>();
 builder.Services.AddScoped<IUniteOfWork, UniteOfWork>();
 
+
+builder.Services.AddAutoMapper(typeof(AuttoMapper));
 //Added AppDbContext 
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationDbContextConnection"))
