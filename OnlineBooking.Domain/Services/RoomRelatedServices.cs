@@ -31,12 +31,22 @@ namespace OnlineBooking.Domain.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<RoomModel>> GetAllAsync()
+        public Task<IEnumerable<RoomModel>> GetAllAsync(RoomModel identity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<RoomModel> GetByIdAsync(long id)
+        public Task<IEnumerable<RoomTypeModel>> GetAllAsync(RoomTypeModel identity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RoomModel> GetByIdAsync(long id, RoomModel identity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RoomTypeModel> GetByIdAsync(long id, RoomTypeModel identity)
         {
             throw new NotImplementedException();
         }
@@ -47,16 +57,6 @@ namespace OnlineBooking.Domain.Services
         }
 
         public Task UpdateAsync(RoomTypeModel entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<IEnumerable<RoomTypeModel>> IcrudService<RoomTypeModel, long>.GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<RoomTypeModel> IcrudService<RoomTypeModel, long>.GetByIdAsync(long id)
         {
             throw new NotImplementedException();
         }

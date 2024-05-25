@@ -21,12 +21,12 @@ namespace OnlineBooking.Domain.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<UserModel>> GetAllAsync()
+        public Task<IEnumerable<UserModel>> GetAllAsync(UserModel identity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<UserModel> GetByIdAsync(string id)
+        public Task<UserModel> GetByIdAsync(string id, UserModel identity)
         {
             throw new NotImplementedException();
         }

@@ -11,7 +11,7 @@ namespace OnlineBooking.Domain.Interfaces
         Task CreateAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
-        Task<T> GetByIdAsync(K id);
-        Task<IEnumerable<T>> GetAllAsync();
+        Task<T> GetByIdAsync(K id, T identity);
+        Task<IEnumerable<T>> GetAllAsync( T identity);
     }
 }

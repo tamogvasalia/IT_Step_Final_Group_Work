@@ -17,7 +17,7 @@ public class HomeController : Controller
 
     [Authorize]
     [AllowAnonymous]
-    public IActionResult Index()
+    public IActionResult Index()//intro page
     {
         return View();
     }
