@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
 using OnlineBooking.Domain.Mapper;
+using OnlineBooking.Domain.Interfaces;
+using OnlineBooking.Domain.Services;
 
 
 
@@ -17,11 +19,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+//inject scopes
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IhotelRepository, HotelRepository>();
 builder.Services.AddScoped<IbookingRepository, BookRepository>();
 builder.Services.AddScoped<IroomTypeRepository, RoomTypeRepository>();
 builder.Services.AddScoped<IUniteOfWork, UniteOfWork>();
+
+builder.Services.AddScoped<IbookingRelate, BookRelatedServices>();
+builder.Services.AddScoped<IroomRelatedServices,RoomRelatedServices>();
+builder.Services.AddScoped<IUserRelated,UserRelatedServices>();
 
 
 builder.Services.AddAutoMapper(typeof(AuttoMapper));
