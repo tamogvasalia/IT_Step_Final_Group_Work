@@ -1,11 +1,6 @@
 ﻿using Final_Project.Data;
 using Microsoft.EntityFrameworkCore;
 using OnlineStore.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnlineBooking.Persistance.Repositories
 {
@@ -17,29 +12,82 @@ namespace OnlineBooking.Persistance.Repositories
             this.rooms = this.context.Set<Room>();
         }
 
-        public Task AddAsync(Room entity)
+        public async Task AddAsync(Room entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ArgumentNullException.ThrowIfNull(entity,nameof(entity));
+                if(await rooms.AnyAsync(io=>io.RoomType == entity.RoomType &&io.maxGuests==entity.maxGuests&&io.isAvailable==entity.isAvailable))
+                {
+                    await rooms.AddAsync(entity);
+                    await context.SaveChangesAsync();
+                }
+                throw new ArgumentException("such entity already exist in DB!");
+            }
+            catch (Exception)
+            { 
+                throw;
+            }
         }
 
-        public Task DeleteAsync(Room entity)
+        public async Task DeleteAsync(Room entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ArgumentNullException.ThrowIfNull(entity,nameof(entity));
+
+                rooms.Remove(entity);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task<IEnumerable<Room>> GetAllAsync()
+        public async Task<IEnumerable<Room>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await rooms.ToListAsync(); 
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task<Room> GetByIdAsync(long id)
+        public async Task<Room> GetByIdAsync(long id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var res =  await rooms.FindAsync(id);
+
+                if(res is not null)
+                {
+                    return res;
+                }
+                throw new ArgumentException("No room exist on this ID");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task UpdateAsync(Room entity)
+        public async Task UpdateAsync(Room entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+               ArgumentNullException.ThrowIfNull(entity,nameof(entity));
+                rooms.Update(entity);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

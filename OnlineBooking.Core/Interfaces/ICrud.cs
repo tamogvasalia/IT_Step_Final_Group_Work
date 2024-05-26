@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OnlineStore.Core.Interfaces
+﻿namespace OnlineStore.Core.Interfaces
 {
     public interface ICrud<T,K> where T:class // first for   class type and second for primary key
     {

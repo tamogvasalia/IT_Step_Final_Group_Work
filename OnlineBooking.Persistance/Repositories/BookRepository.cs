@@ -26,7 +26,6 @@ namespace OnlineBooking.Persistance.Repositories
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -68,7 +67,7 @@ namespace OnlineBooking.Persistance.Repositories
                 {
                     return res;
                 }
-              throw new ArgumentException(nameof(id));
+              throw new ArgumentException("No Entity found on this id");
             }
             catch (Exception)
             {
