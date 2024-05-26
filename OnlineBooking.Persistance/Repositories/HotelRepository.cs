@@ -19,18 +19,10 @@ namespace OnlineBooking.Persistance.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(long id)
+        public async Task DeleteAsync(Hotel entity)
         {
-            var hotel = await GetByIdAsync(id);
-            if (hotel != null)
-            {
-                hotelSet.Remove(hotel);
-                await _context.SaveChangesAsync();
-            }
-            else
-            {
-                throw new KeyNotFoundException($"Hotel with {id} not found");
-            }
+            hotelSet.Remove(entity);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Hotel>> GetAllAsync()
@@ -38,6 +30,7 @@ namespace OnlineBooking.Persistance.Repositories
             return await hotelSet
                 .Include(r => r.Rooms)
                 .ToListAsync();
+                
         }
 
         public async Task<Hotel> GetByIdAsync(long id)

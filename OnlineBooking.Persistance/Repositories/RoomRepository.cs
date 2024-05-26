@@ -14,7 +14,7 @@ namespace OnlineBooking.Persistance.Repositories
         private readonly DbSet<Room> rooms;
         public RoomRepository(ApplicationDbContext con) : base(con)
         {
-            this.rooms = this.context.Set<Room>();
+            this.rooms = this._context.Set<Room>();
         }
 
         public Task AddAsync(Room entity)
@@ -22,7 +22,7 @@ namespace OnlineBooking.Persistance.Repositories
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(Room entity)
+        public Task DeleteAsync(long id)
         {
             throw new NotImplementedException();
         }

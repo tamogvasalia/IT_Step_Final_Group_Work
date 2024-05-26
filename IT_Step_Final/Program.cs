@@ -34,7 +34,7 @@ builder.Services.AddScoped<IUserRelated,UserRelatedServices>();
 builder.Services.AddAutoMapper(typeof(AuttoMapper));
 //Added AppDbContext 
 builder.Services.AddDbContext<ApplicationDbContext>(
-    options => options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationDbContextConnection"))
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
 builder.Services.AddIdentity<User,IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
