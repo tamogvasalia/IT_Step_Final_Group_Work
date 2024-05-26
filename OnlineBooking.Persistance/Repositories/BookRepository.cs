@@ -11,15 +11,10 @@ namespace OnlineBooking.Persistance.Repositories
         private DbSet<Room> rooms { get; set; }
         public BookRepository(ApplicationDbContext con) : base(con)
         {
-            rooms = this.context.Set<Room>();
+            rooms =  _context.Set<Room>();
         }
 
         public Task AddAsync(Booking entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteAsync(Booking entity)
         {
             throw new NotImplementedException();
         }
@@ -29,12 +24,17 @@ namespace OnlineBooking.Persistance.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Booking> GetByIdAsync(long id)
+        public Task<Booking?> GetByIdAsync(long id)
         {
             throw new NotImplementedException();
         }
 
         public Task<IEnumerable<Booking>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAsync(long id)
         {
             throw new NotImplementedException();
         }

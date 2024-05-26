@@ -6,33 +6,33 @@ namespace OnlineBooking.Persistance.UniteOfWorkRelated
 {
     public class UniteOfWork : IUniteOfWork
     {
-        private readonly ApplicationDbContext context;
+        private readonly ApplicationDbContext _context;
 
-        public UniteOfWork(ApplicationDbContext con)
+        public UniteOfWork(ApplicationDbContext context)
         {
-            this.context = con;
+            _context = context;
                 
         }
 
-        public IbookingRepository bookReposiotry => new BookRepository(context);
-        public IhotelRepository hotelRepository => new HotelRepository(context);
+        public IbookingRepository bookReposiotry => new BookRepository(_context);
+        public IhotelRepository hotelRepository => new HotelRepository(_context);
 
-        public IRoomRepository roomRepository => new RoomRepository(context);
+        public IRoomRepository roomRepository => new RoomRepository(_context);
 
-        public IroomTypeRepository roomTypeRepository => new RoomTypeRepository(context);
+        public IroomTypeRepository roomTypeRepository => new RoomTypeRepository(_context);
 
         public void Dispose()
         {
-           context.Dispose();
+            _context.Dispose();
         }
 
         public async Task saveChanges()
         {
-            using (var transact = await context.Database.BeginTransactionAsync())
+            using (var transact = await _context.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    await context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
                     await transact.CommitAsync();
                 }
                 catch (Exception)

@@ -10,32 +10,53 @@ namespace OnlineBooking.Persistance.Repositories
         private readonly DbSet<Hotel> hotelSet;
         public HotelRepository(ApplicationDbContext con) : base(con)
         {
-            hotelSet= this.context.Set<Hotel>();
+            hotelSet = this._context.Set<Hotel>();
         }
 
-        public Task AddAsync(Hotel entity)
+        public async Task AddAsync(Hotel entity)
         {
-            throw new NotImplementedException();
+            await hotelSet.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(Hotel entity)
+        public async Task DeleteAsync(long id)
         {
-            throw new NotImplementedException();
+            var hotel = await GetByIdAsync(id);
+            if (hotel != null)
+            {
+                hotelSet.Remove(hotel);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Hotel with {id} not found");
+            }
         }
 
-        public Task<IEnumerable<Hotel>> GetAllAsync()
+        public async Task<IEnumerable<Hotel>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await hotelSet
+                .Include(r => r.Rooms)
+                .ToListAsync();
         }
 
-        public Task<Hotel> GetByIdAsync(long id)
+        public async Task<Hotel> GetByIdAsync(long id)
         {
-            throw new NotImplementedException();
+            return await hotelSet
+                 .Include(r => r.Rooms)
+                 .FirstOrDefaultAsync(h => h.Id == id) ?? throw new KeyNotFoundException($"Hotel with {id} id not found");
         }
 
-        public Task UpdateAsync(Hotel entity)
+        public async Task UpdateAsync(Hotel entity)
         {
-            throw new NotImplementedException();
+            var oldHotel = await GetByIdAsync(entity.Id);
+            if (oldHotel == null)
+            {
+                throw new KeyNotFoundException($"Hotel with id {entity.Id} not found");             
+            }
+
+            _context.Entry(oldHotel).CurrentValues.SetValues(entity);
+            await _context.SaveChangesAsync();
         }
     }
 }

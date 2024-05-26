@@ -9,11 +9,11 @@ namespace OnlineBooking.Persistance.Repositories
 {
     public abstract class BaseReposiotry
     {
-        protected readonly ApplicationDbContext context;
+        protected readonly ApplicationDbContext _context;
 
-        public BaseReposiotry(ApplicationDbContext con)
+        public BaseReposiotry(ApplicationDbContext context)
         {
-                this.context = con;
+                _context= context;
         }
 
     }

@@ -4,5 +4,6 @@ namespace OnlineStore.Core.Interfaces
 {
     public interface IhotelRepository:ICrud<Hotel,long>
     {
+
     }
 }
