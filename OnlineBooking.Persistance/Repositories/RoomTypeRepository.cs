@@ -22,7 +22,7 @@ namespace OnlineBooking.Persistance.Repositories
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(long id)
+        public Task DeleteAsync(RoomType entity)
         {
             throw new NotImplementedException();
         }
