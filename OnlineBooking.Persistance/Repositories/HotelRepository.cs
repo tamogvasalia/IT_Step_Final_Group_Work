@@ -15,21 +15,48 @@ namespace OnlineBooking.Persistance.Repositories
 
         public async Task AddAsync(Hotel entity)
         {
-            await hotelSet.AddAsync(entity);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await hotelSet.AddAsync(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw new ArgumentException($"Hotel {entity.Name} already exists in the database");
+            }
         }
 
         public async Task DeleteAsync(Hotel entity)
         {
-            hotelSet.Remove(entity);
-            await _context.SaveChangesAsync();
+            try
+            {
+                if (entity != null)
+                {
+                    hotelSet.Remove(entity);
+                    await _context.SaveChangesAsync();
+                } 
+            }
+            catch (Exception)
+            {
+
+                throw new ArgumentException($"{entity.Name} doesn't exist. nothing to delete");
+            }
         }
 
         public async Task<IEnumerable<Hotel>> GetAllAsync()
         {
-            return await hotelSet
+            try
+            {
+                return await hotelSet
                 .Include(r => r.Rooms)
                 .ToListAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
                 
         }
 

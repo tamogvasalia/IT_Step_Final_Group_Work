@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using OnlineStore.Core.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,34 +18,77 @@ namespace OnlineBooking.Persistance.Repositories
             rooms = this._context.Set<RoomType>();
         }
 
-        public Task AddAsync(RoomType entity)
+        public async Task AddAsync(RoomType entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (!rooms.Any(r=> r.TypeName == entity.TypeName))
+                {
+                    rooms.Add(entity);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception)
+            { 
+            
+                throw new ArgumentException($"Room Type {entity.TypeName} already exists in the database.");
+            }
+        }
+        public async Task DeleteAsync(RoomType entity)
+        {
+            try
+            {
+                if(entity != null)
+                {
+                    rooms.Remove(entity);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw new ArgumentException($"Room Type {entity.TypeName} doesn't exist");
+            }
         }
 
-        public Task DeleteAsync(long id)
+        public async Task<IEnumerable<RoomType>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await rooms
+               .Include(r => r.Rooms)
+               .ToListAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }          
         }
 
-        public Task DeleteAsync(RoomType entity)
+        public async Task<RoomType> GetByIdAsync(long id)
         {
-            throw new NotImplementedException();
+            return await rooms
+                .Include(r => r.Rooms)
+                .FirstOrDefaultAsync(t => t.Id == id) ?? throw new KeyNotFoundException($"Room Type with {id} id not found");
         }
 
-        public Task<IEnumerable<RoomType>> GetAllAsync()
+        public async Task UpdateAsync(RoomType entity)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var existingType = await GetByIdAsync(entity.Id);
+                if(existingType != null)
+                {
+                    _context.Entry(existingType).CurrentValues.SetValues(entity);
+                    await _context.SaveChangesAsync();
+                }
+                throw new KeyNotFoundException($"Room Type {entity.Id} not found/doesn't exist");
+            }
+            catch (Exception)
+            {
 
-        public Task<RoomType> GetByIdAsync(long id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateAsync(RoomType entity)
-        {
-            throw new NotImplementedException();
+                throw;
+            }
         }
     }
 }
