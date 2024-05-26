@@ -20,7 +20,7 @@ namespace OnlineBooking.Persistance.Repositories
                 if(await rooms.AnyAsync(io=>io.RoomType == entity.RoomType &&io.maxGuests==entity.maxGuests&&io.isAvailable==entity.isAvailable))
                 {
                     await rooms.AddAsync(entity);
-                    await context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
                 }
                 throw new ArgumentException("such entity already exist in DB!");
             }
@@ -37,7 +37,7 @@ namespace OnlineBooking.Persistance.Repositories
                 ArgumentNullException.ThrowIfNull(entity,nameof(entity));
 
                 rooms.Remove(entity);
-                await context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (Exception)
             {
@@ -49,7 +49,7 @@ namespace OnlineBooking.Persistance.Repositories
         {
             try
             {
-                return await rooms.ToListAsync(); 
+                return await rooms.Include(io=>io.books).ToListAsync(); 
 
             }
             catch (Exception)
@@ -82,7 +82,7 @@ namespace OnlineBooking.Persistance.Repositories
             {
                ArgumentNullException.ThrowIfNull(entity,nameof(entity));
                 rooms.Update(entity);
-                await context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (Exception)
             {

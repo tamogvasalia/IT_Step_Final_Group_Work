@@ -11,7 +11,7 @@ namespace OnlineBooking.Persistance.Repositories
         private DbSet<Booking> booking { get; set; }
         public BookRepository(ApplicationDbContext con) : base(con)
         {
-            this.booking = this.context.Set<Booking>();
+            this.booking = this._context.Set<Booking>();
         }
 
         public async Task AddAsync(Booking entity)
@@ -22,7 +22,7 @@ namespace OnlineBooking.Persistance.Repositories
 
                 await booking.AddAsync(entity);
 
-                await context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (Exception)
             {
@@ -30,13 +30,13 @@ namespace OnlineBooking.Persistance.Repositories
             }
         }
 
-        public Task DeleteAsync(Booking entity)
+        public async Task DeleteAsync(Booking entity)
         {
             try
             {
                 ArgumentNullException.ThrowIfNull(entity,nameof(entity));
                 booking.Remove(entity);
-                await context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (Exception)
             { 
@@ -44,19 +44,41 @@ namespace OnlineBooking.Persistance.Repositories
             }
         }
 
-        public Task UpdateAsync(Booking entity)
+        public async Task UpdateAsync(Booking entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ArgumentNullException.ThrowIfNull(entity,nameof (entity));
+                booking.Update(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task<Booking> GetByIdAsync(long id)
+        public async Task<Booking> GetByIdAsync(long id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var res = await booking.FindAsync(id);
+                if(res is not null)
+                {
+                    return res;
+                }
+                throw new ArgumentNullException("No entity FOund on this ID");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        public Task<IEnumerable<Booking>> GetAllAsync()
+        public async Task<IEnumerable<Booking>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await booking.Include(io => io.user).Include(io => io.Room).ToListAsync();
         }
     }
 }

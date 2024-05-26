@@ -27,6 +27,11 @@ namespace OnlineBooking.Persistance.Repositories
             throw new NotImplementedException();
         }
 
+        public Task DeleteAsync(RoomType entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IEnumerable<RoomType>> GetAllAsync()
         {
             throw new NotImplementedException();
