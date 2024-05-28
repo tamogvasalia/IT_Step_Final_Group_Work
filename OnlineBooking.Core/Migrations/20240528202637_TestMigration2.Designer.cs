@@ -4,6 +4,7 @@ using Final_Project.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace OnlineBooking.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240528202637_TestMigration2")]
+    partial class TestMigration2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,26 +56,6 @@ namespace OnlineBooking.Core.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Bookings");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            RoomId = 1L,
-                            UserID = "user1",
-                            checkInTime = new DateTime(2024, 5, 19, 0, 50, 38, 517, DateTimeKind.Local).AddTicks(3686),
-                            checkOutTime = new DateTime(2024, 5, 24, 0, 50, 38, 517, DateTimeKind.Local).AddTicks(3698),
-                            totalPrice = 500.0
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            RoomId = 2L,
-                            UserID = "user2",
-                            checkInTime = new DateTime(2024, 5, 26, 0, 50, 38, 517, DateTimeKind.Local).AddTicks(3700),
-                            checkOutTime = new DateTime(2024, 5, 28, 0, 50, 38, 517, DateTimeKind.Local).AddTicks(3701),
-                            totalPrice = 300.0
-                        });
                 });
 
             modelBuilder.Entity("Final_Project.Models.Hotel.Hotel", b =>
@@ -105,24 +88,6 @@ namespace OnlineBooking.Core.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Hotels");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Address = "42 Sunset Boulevard",
-                            City = "Los Angeles",
-                            Name = "Hotel California",
-                            PicturePath = "hotelcalifornia.jpg"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Address = "1 Republic Avenue",
-                            City = "Zubrowka",
-                            Name = "The Grand Budapest Hotel",
-                            PicturePath = "grandbudapest.jpg"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -329,38 +294,6 @@ namespace OnlineBooking.Core.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "user1",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "0af8167d-78c1-4dc1-b986-b6bce04afa94",
-                            Email = "user1@example.com",
-                            EmailConfirmed = false,
-                            FirstName = "John",
-                            LastName = "Doe",
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "3a994356-776b-4d11-84b8-87db3daa47ab",
-                            TwoFactorEnabled = false,
-                            UserName = "user1@example.com"
-                        },
-                        new
-                        {
-                            Id = "user2",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "bf930ddd-b2ab-43e5-83e6-52745b5d9ffc",
-                            Email = "user2@example.com",
-                            EmailConfirmed = false,
-                            FirstName = "Jane",
-                            LastName = "Doe",
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "b6fafc0e-99a7-492c-8a16-72d63ff1c791",
-                            TwoFactorEnabled = false,
-                            UserName = "user2@example.com"
-                        });
                 });
 
             modelBuilder.Entity("Room", b =>
@@ -401,30 +334,6 @@ namespace OnlineBooking.Core.Migrations
                     b.HasIndex("roomTypeId");
 
                     b.ToTable("Rooms");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            HotelId = 1L,
-                            Name = "Room 101",
-                            PicturePath = "room101.jpg",
-                            PricePerDay = 100.0,
-                            isAvailable = true,
-                            maxGuests = 2,
-                            roomTypeId = 1L
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            HotelId = 1L,
-                            Name = "Room 102",
-                            PicturePath = "room102.jpg",
-                            PricePerDay = 150.0,
-                            isAvailable = true,
-                            maxGuests = 3,
-                            roomTypeId = 2L
-                        });
                 });
 
             modelBuilder.Entity("RoomType", b =>
@@ -446,18 +355,6 @@ namespace OnlineBooking.Core.Migrations
                         .IsDescending();
 
                     b.ToTable("RoomTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            TypeName = "Single"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            TypeName = "Double"
-                        });
                 });
 
             modelBuilder.Entity("Final_Project.Booking", b =>
