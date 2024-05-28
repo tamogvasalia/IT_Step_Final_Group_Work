@@ -9,6 +9,7 @@ namespace OnlineBooking.Domain.Services
         protected readonly IMapper map;
         public readonly IUniteOfWork work;
 
+        #region Constructors
         public BaseService(IMapper map,IUniteOfWork wor)
         {
             this.map= map;
@@ -19,5 +20,6 @@ namespace OnlineBooking.Domain.Services
         {
                 this.map= map;
         }
+        #endregion
     }
 }

@@ -15,6 +15,7 @@ namespace OnlineBooking.Domain.Services
         {
         }
 
+        #region Create
         public async Task CreateAsync(RoomModel entity)
         {
             try
@@ -69,7 +70,9 @@ namespace OnlineBooking.Domain.Services
                 throw;
             }
         }
+        #endregion
 
+        #region DeleteAsync
         public async Task DeleteAsync(RoomModel entity)
         {
             try
@@ -111,7 +114,9 @@ namespace OnlineBooking.Domain.Services
                 throw;
             }
         }
+        #endregion
 
+        #region GetAllAsync
         public async Task<IEnumerable<RoomModel>> GetAllAsync(RoomModel identity)
         {
             try
@@ -147,7 +152,9 @@ namespace OnlineBooking.Domain.Services
                 throw;
             }
         }
+        #endregion
 
+        #region GetByIdAsync
         public async Task<RoomModel> GetByIdAsync(long id, RoomModel identity)
         {
             try
@@ -184,6 +191,9 @@ namespace OnlineBooking.Domain.Services
             }
         }
 
+        #endregion
+
+        #region Update
         public async Task UpdateAsync(RoomModel entity)
         {
             try
@@ -219,5 +229,6 @@ namespace OnlineBooking.Domain.Services
                 throw;
             }
         }
+        #endregion
     }
 }

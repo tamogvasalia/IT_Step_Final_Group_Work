@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Identity;
 using OnlineBooking.Domain.Dtos;
 using OnlineBooking.Domain.Interfaces;
 using OnlineStore.Core.Entities;
+using System.Diagnostics;
 
 namespace OnlineBooking.Domain.Services
 {
+    [DebuggerDisplay("User Related Implementation")]
     public class UserRelatedServices : BaseService, IUserRelated
     {
 
@@ -17,7 +19,7 @@ namespace OnlineBooking.Domain.Services
             this.signInManage = signInManage;
         }
 
-
+        #region Registration
         public async Task<IdentityResult> Registraction(UserModel model)
         {
             try
@@ -42,7 +44,9 @@ namespace OnlineBooking.Domain.Services
                 throw;
             }
         }
+        #endregion
 
+        #region SignIn
         public async Task<SignInResult> signIn(UserSignInModel model)
         {
             try
@@ -64,10 +68,13 @@ namespace OnlineBooking.Domain.Services
                 throw;
             }
         }
+        #endregion
 
+        #region Signout
         public async Task SignOut()
         {
            await signInManage.SignOutAsync();
         }
+        #endregion
     }
 }

@@ -16,6 +16,7 @@ namespace OnlineBooking.Domain.Services
         {
         }
 
+        #region Create
         public async Task CreateAsync(BookingModel entity)
         {
             try
@@ -76,7 +77,9 @@ namespace OnlineBooking.Domain.Services
                 throw;
             }
         }
+        #endregion
 
+        #region Delete
         public async Task DeleteAsync(BookingModel entity)
         {
             try
@@ -112,7 +115,9 @@ namespace OnlineBooking.Domain.Services
                 throw;
             }
         }
+        #endregion
 
+        #region GetAllAsync
         public async Task<IEnumerable<BookingModel>> GetAllAsync(BookingModel identity)
         {
             try
@@ -154,7 +159,9 @@ namespace OnlineBooking.Domain.Services
                 throw;
             }
         }
+        #endregion
 
+        #region GetByIdAsync
         public async Task<BookingModel> GetByIdAsync(long id, BookingModel identity)
         {
             try
@@ -191,6 +198,9 @@ namespace OnlineBooking.Domain.Services
             }
         }
 
+        #endregion
+
+        #region Update
         public async Task UpdateAsync(BookingModel entity)
         {
             try
@@ -228,5 +238,6 @@ namespace OnlineBooking.Domain.Services
                 throw;
             }
         }
+        #endregion
     }
 }
