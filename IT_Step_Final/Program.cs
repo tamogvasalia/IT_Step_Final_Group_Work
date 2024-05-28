@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Identity;
 using OnlineBooking.Domain.Mapper;
 using OnlineBooking.Domain.Interfaces;
 using OnlineBooking.Domain.Services;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 
 
@@ -30,14 +33,36 @@ builder.Services.AddScoped<IbookingRelate, BookRelatedServices>();
 builder.Services.AddScoped<IroomRelatedServices,RoomRelatedServices>();
 builder.Services.AddScoped<IUserRelated,UserRelatedServices>();
 
-
+//inject mapper
 builder.Services.AddAutoMapper(typeof(AuttoMapper));
+
 //Added AppDbContext 
 builder.Services.AddDbContext<ApplicationDbContext>(
-    options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+    options =>
+    {
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+    }
 );
 
-builder.Services.AddIdentity<User,IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<User,IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "http://localhost:42130",
+            ValidAudience = "http://localhost:42130",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("65E255FF-F399-42D4-9C7F-D5D08B0EC285")),
+        };
+    });
 
 
 builder.Services.AddRazorPages();
