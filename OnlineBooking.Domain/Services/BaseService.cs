@@ -14,5 +14,10 @@ namespace OnlineBooking.Domain.Services
             this.map= map;
             this.work= wor;
         }
+
+        public BaseService(IMapper map)
+        {
+                this.map= map;
+        }
     }
 }

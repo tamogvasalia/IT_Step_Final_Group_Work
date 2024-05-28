@@ -1,39 +1,73 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using OnlineBooking.Domain.Dtos;
 using OnlineBooking.Domain.Interfaces;
-using OnlineBooking.Persistance.UniteOfWorkRelated;
+using OnlineStore.Core.Entities;
 
 namespace OnlineBooking.Domain.Services
 {
     public class UserRelatedServices : BaseService, IUserRelated
     {
-        public UserRelatedServices(IMapper map, IUniteOfWork wor) : base(map, wor)
+
+        private  UserManager<User> Usermanager;
+        private  SignInManager<User> signInManage;
+        public UserRelatedServices(IMapper map, UserManager<User> Usermanager, SignInManager<User> signInManage) : base(map)
         {
+            this.Usermanager = Usermanager;
+            this.signInManage = signInManage;
         }
 
-        public Task CreateAsync(UserModel entity)
+
+        public async Task<IdentityResult> Registraction(UserModel model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ArgumentNullException.ThrowIfNull(model, nameof(model));
+                if(string.IsNullOrEmpty(model.Email)||string.IsNullOrEmpty(model.UserName)||string.IsNullOrEmpty(model.FirstName)
+                    ||string.IsNullOrEmpty(model.LastName)) 
+                {
+                    throw new ArgumentException("Arguments can not be null");
+                }
+                var user=map.Map<User>(model);
+                if(user!=null)
+                {
+                    var res=await Usermanager.CreateAsync(user, model.Password);
+
+                    return res;
+                }
+                throw new ArgumentException(" Registration was unsuccesfull");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task DeleteAsync(UserModel entity)
+        public async Task<SignInResult> signIn(UserSignInModel model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var res = await Usermanager.FindByNameAsync(model.UserName);
+                if (res is not null)
+                {
+                    var signin = await signInManage.CheckPasswordSignInAsync(res, model.Password, true);
+
+                    if (signin is not null)
+                    {
+                        return signin;
+                    }
+                }
+                throw new ArgumentException("No Such User exist");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task<IEnumerable<UserModel>> GetAllAsync(UserModel identity)
+        public async Task SignOut()
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<UserModel> GetByIdAsync(string id, UserModel identity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateAsync(UserModel entity)
-        {
-            throw new NotImplementedException();
+           await signInManage.SignOutAsync();
         }
     }
 }
