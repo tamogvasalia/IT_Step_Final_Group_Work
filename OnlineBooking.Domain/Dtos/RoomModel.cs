@@ -5,6 +5,8 @@ namespace OnlineBooking.Domain.Dtos
 {
     public class RoomModel
     {
+        [Required(ErrorMessage ="Name is required :(")]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "Name format Is not valid")]
         public required string Name { get; set; }
 
         [Range(0, double.MaxValue)]
@@ -13,6 +15,7 @@ namespace OnlineBooking.Domain.Dtos
         [Required]
         public string PicturePath { get; set; } = "";
 
+        [Required]
         public bool isAvailable { get; set; }
 
         [Range(0, int.MaxValue)]

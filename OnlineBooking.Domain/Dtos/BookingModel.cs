@@ -4,14 +4,18 @@ namespace OnlineBooking.Domain.Dtos
 {
     public class BookingModel
     {
+        [Display(Name ="Room Identificator")]
+        [Required(ErrorMessage ="This field is required")]
         public long RoomId { get; set; }
 
+        [Display(Name ="Userd Identificator")]
+        [Required(ErrorMessage ="THis field is required")]
         public required string UserID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="THis field is required :(")]
         public DateTime checkInTime { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="This field is required :(")]
         public DateTime checkOutTime { get; set; }
 
         [Range(0, double.MaxValue)]
