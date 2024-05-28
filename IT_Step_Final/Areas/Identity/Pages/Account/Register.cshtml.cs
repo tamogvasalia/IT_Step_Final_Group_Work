@@ -30,6 +30,7 @@ namespace Final_Project.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<User> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
 
+
         public RegisterModel(
             UserManager<User> userManager,
             IUserStore<User> userStore,
@@ -129,14 +130,11 @@ namespace Final_Project.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
                         values: new { area = "Identity", userId = userId,returnUrl = returnUrl },
-                        protocol: Request.Scheme);
-                  
+                        protocol: Request.Scheme);                  
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
