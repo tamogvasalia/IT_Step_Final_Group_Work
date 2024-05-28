@@ -1,64 +1,223 @@
 ﻿using AutoMapper;
 using OnlineBooking.Domain.Dtos;
+using OnlineBooking.Domain.Exceptions;
 using OnlineBooking.Domain.Interfaces;
 using OnlineBooking.Persistance.UniteOfWorkRelated;
+using System.Diagnostics;
 
 namespace OnlineBooking.Domain.Services
 {
+
+    [DebuggerDisplay(value: "RoomRelatedServices")]
     public class RoomRelatedServices : BaseService, IroomRelatedServices
     {
         public RoomRelatedServices(IMapper map, IUniteOfWork wor) : base(map, wor)
         {
         }
 
-        public Task CreateAsync(RoomModel entity)
+        public async Task CreateAsync(RoomModel entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (!string.IsNullOrEmpty(entity.Name) && !string.IsNullOrEmpty(entity.PicturePath))
+                {
+                    var mapped = map.Map<Room>(entity);
+                    if ((mapped is not null))
+                    {
+                        await work.roomRepository.AddAsync(mapped);
+                    }
+                    else
+                    {
+                        throw new RoomServiceRelateException("Mapped was not succesfully");
+                    }
+                }
+                else
+                {
+                    throw new RoomServiceRelateException(nameof(entity));
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task CreateAsync(RoomTypeModel entity)
+        public async Task CreateAsync(RoomTypeModel entity)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                if (!string.IsNullOrEmpty(entity.TypeName))
+                {
+                    var mapped = map.Map<RoomType>(entity);
+                    if ((mapped is not null))
+                    {
+                        await work.roomTypeRepository.AddAsync(mapped);
+                    }
+                    else
+                    {
+                        throw new RoomServiceRelateException("Mapped was not succesfully");
+                    }
+                }
+                else
+                {
+                    throw new RoomServiceRelateException(nameof(entity));
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task DeleteAsync(RoomModel entity)
+        public async Task DeleteAsync(RoomModel entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ArgumentNullException.ThrowIfNull(entity, nameof(entity));
+                var mapped = map.Map<Room>(entity);
+                if (mapped is not null)
+                {
+                    await work.roomRepository.DeleteAsync(mapped);
+                }
+                else
+                {
+                    throw new RoomServiceRelateException("Mapped was not succesfully");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task DeleteAsync(RoomTypeModel entity)
+        public async Task DeleteAsync(RoomTypeModel entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ArgumentNullException.ThrowIfNull(entity, nameof(entity));
+                var mapped = map.Map<RoomType>(entity);
+                if (mapped is not null)
+                {
+                    await work.roomTypeRepository.DeleteAsync(mapped);
+                }
+                else
+                {
+                    throw new RoomServiceRelateException("Mapped was not succesfully");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task<IEnumerable<RoomModel>> GetAllAsync(RoomModel identity)
+        public async Task<IEnumerable<RoomModel>> GetAllAsync(RoomModel identity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var res = await work.roomRepository.GetAllAsync();
+                if(res.Any())
+                {
+                    var mappedObjects = map.Map<IEnumerable<RoomModel>>(res);
+                    return mappedObjects;
+                }
+                throw new RoomServiceRelateException(" No rooms Exist");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task<IEnumerable<RoomTypeModel>> GetAllAsync(RoomTypeModel identity)
+        public async Task<IEnumerable<RoomTypeModel>> GetAllAsync(RoomTypeModel identity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var res = await work.roomTypeRepository.GetAllAsync();
+                if (res.Any())
+                {
+                    var mappedObjects = map.Map<IEnumerable<RoomTypeModel>>(res);
+                    return mappedObjects;
+                }
+                throw new RoomServiceRelateException(" No roomsTypes Exist");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task<RoomModel> GetByIdAsync(long id, RoomModel identity)
+        public async Task<RoomModel> GetByIdAsync(long id, RoomModel identity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var res = await work.roomRepository.GetByIdAsync(id);
+                if (res is not null)
+                {
+                    var mappedObjects = map.Map<RoomModel>(res);
+                    return mappedObjects;
+                }
+                throw new RoomServiceRelateException(" No room Exist");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task<RoomTypeModel> GetByIdAsync(long id, RoomTypeModel identity)
+        public async Task<RoomTypeModel> GetByIdAsync(long id, RoomTypeModel identity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var res = await work.roomTypeRepository.GetByIdAsync(id);
+                if (res is not null)
+                {
+                    var mappedObjects = map.Map<RoomTypeModel>(res);
+                    return mappedObjects;
+                }
+                throw new RoomServiceRelateException(" No roomType Exist");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task UpdateAsync(RoomModel entity)
+        public async Task UpdateAsync(RoomModel entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+             ArgumentNullException.ThrowIfNull(entity,nameof(entity));
+                var mapped= map.Map<Room>(entity);
+                if(mapped is null)
+                {
+                    throw new RoomServiceRelateException("Mapped  not was successfully :(");
+                }
+                await work.roomRepository.UpdateAsync(mapped);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task UpdateAsync(RoomTypeModel entity)
+        public async Task UpdateAsync(RoomTypeModel entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ArgumentNullException.ThrowIfNull(entity, nameof(entity));
+                var mapped = map.Map<RoomType>(entity);
+                if (mapped is null)
+                {
+                    throw new RoomServiceRelateException("Mapped  not was successfully :(");
+                }
+                await work.roomTypeRepository.UpdateAsync(mapped);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

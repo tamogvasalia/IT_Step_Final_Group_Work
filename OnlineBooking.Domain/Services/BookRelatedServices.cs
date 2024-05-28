@@ -1,64 +1,232 @@
 ﻿using AutoMapper;
+using Final_Project;
+using Final_Project.Models.Hotel;
 using OnlineBooking.Domain.Dtos;
+using OnlineBooking.Domain.Exceptions;
 using OnlineBooking.Domain.Interfaces;
 using OnlineBooking.Persistance.UniteOfWorkRelated;
+using System.Diagnostics;
 
 namespace OnlineBooking.Domain.Services
 {
+    [DebuggerDisplay("BookingRelateServices")]
     public class BookRelatedServices : BaseService, IbookingRelate
     {
         public BookRelatedServices(IMapper map, IUniteOfWork wor) : base(map, wor)
         {
         }
 
-        public Task CreateAsync(BookingModel entity)
+        public async Task CreateAsync(BookingModel entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+              ArgumentNullException.ThrowIfNull(entity, nameof(entity));
+                if (entity.checkInTime > entity.checkOutTime)
+                {
+                    throw new BookRelatedException("Somethings Unusuall");
+                }
+                var mapped= map.Map<Booking>(entity);
+                
+                if(mapped is not null)
+                {
+                    var res = await work.roomRepository.GetByIdAsync(mapped.RoomId);
+                    if (res is null)
+                    {
+                        throw new BookRelatedException("No connected TableRoom Exist , Please  choice  Correct room!");
+                    }
+                    await work.bookReposiotry.AddAsync(mapped);
+                }
+                else
+                {
+                    throw new BookRelatedException("Mapped  not was succesfully");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task CreateAsync(HotelModel entity)
+        public async Task CreateAsync(HotelModel entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ArgumentNullException.ThrowIfNull(entity, nameof(entity));
+                if (entity.Address is null)
+                {
+                    throw new BookRelatedException("Address is null there");
+                }
+                if(entity.City is null)
+                {
+                    throw new BookRelatedException("City is null there");
+                }
+                var mapped = map.Map<Hotel>(entity);
+                if (mapped is not null)
+                {
+                    await work.hotelRepository.AddAsync(mapped);
+                }
+                else
+                {
+                    throw new BookRelatedException("Mapped  not was succesfully");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        public Task DeleteAsync(BookingModel entity)
+        public async Task DeleteAsync(BookingModel entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ArgumentNullException.ThrowIfNull(entity, nameof(entity));
+                var mapped = map.Map<Booking>(entity);
+                if (mapped is null)
+                {
+                    throw new BookRelatedException("mapped  not was successfully");
+                }
+                await work.bookReposiotry.DeleteAsync(mapped);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task DeleteAsync(HotelModel entity)
+        public async Task DeleteAsync(HotelModel entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ArgumentNullException.ThrowIfNull(entity, nameof(entity));
+                var mapped = map.Map<Hotel>(entity);
+                if (mapped is null)
+                {
+                    throw new BookRelatedException("mapped  not was successfully , while mapping hotel model");
+                }
+                await work.hotelRepository.DeleteAsync(mapped);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task<IEnumerable<BookingModel>> GetAllAsync(BookingModel identity)
+        public async Task<IEnumerable<BookingModel>> GetAllAsync(BookingModel identity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var res = await work.bookReposiotry.GetAllAsync();
+                if(res.Any())
+                {
+                    var mappedObjects=map.Map<IEnumerable<BookingModel>>(res);
+                    return mappedObjects;
+                }
+                else
+                {
+                    throw new BookRelatedException("No Booking Exist");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task<IEnumerable<HotelModel>> GetAllAsync(HotelModel identity)
+        public async Task<IEnumerable<HotelModel>> GetAllAsync(HotelModel identity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var res = await work.hotelRepository.GetAllAsync();
+                if (res.Any())
+                {
+                    var mappedObjects = map.Map<IEnumerable<HotelModel>>(res);
+                    return mappedObjects;
+                }
+                else
+                {
+                    throw new BookRelatedException("No Booking Exist");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task<BookingModel> GetByIdAsync(long id, BookingModel identity)
+        public async Task<BookingModel> GetByIdAsync(long id, BookingModel identity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var res = await work.bookReposiotry.GetByIdAsync(id);
+                if(res is not null)
+                {
+                    var mapped= map.Map<BookingModel>(res);
+                    return mapped;
+                }
+                throw new BookRelatedException("No entity found while searching for record");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task<HotelModel> GetByIdAsync(long id, HotelModel identity)
+        public async Task<HotelModel> GetByIdAsync(long id, HotelModel identity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var res = await work.hotelRepository.GetByIdAsync(id);
+                if (res is not null)
+                {
+                    var mapped = map.Map<HotelModel>(res);
+                    return mapped;
+                }
+                throw new BookRelatedException("No entity found while searching for record");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task UpdateAsync(BookingModel entity)
+        public async Task UpdateAsync(BookingModel entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ArgumentNullException.ThrowIfNull(entity, nameof(entity));
+                var mapped = map.Map<Booking>(entity);
+                if(mapped is  null)
+                {
+                    throw new BookRelatedException("Mapped was Unsuccesfull");
+                }
+                await work.bookReposiotry.UpdateAsync(mapped);
+                throw new BookRelatedException("No entity found while searching for record");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task UpdateAsync(HotelModel entity)
+        public async Task UpdateAsync(HotelModel entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ArgumentNullException.ThrowIfNull(entity, nameof(entity));
+                var mapped = map.Map<Hotel>(entity);
+                if (mapped is null)
+                {
+                    throw new BookRelatedException("Mapped was Unsuccesfull");
+                }
+                await work.hotelRepository.UpdateAsync(mapped);
+                throw new BookRelatedException("No entity found while searching for record");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
