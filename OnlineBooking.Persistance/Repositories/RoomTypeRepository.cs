@@ -1,12 +1,6 @@
 ﻿using Final_Project.Data;
 using Microsoft.EntityFrameworkCore;
 using OnlineStore.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnlineBooking.Persistance.Repositories
 {

@@ -9,7 +9,7 @@ namespace OnlineBooking.Domain.Dtos
         public long RoomId { get; set; }
 
         [Display(Name ="Userd Identificator")]
-        [Required(ErrorMessage ="THis field is required")]
+        [Required(ErrorMessage ="This field is required")]
         public required string UserID { get; set; }
 
         [Required(ErrorMessage ="THis field is required :(")]
