@@ -1,8 +1,8 @@
 ﻿@using OnlineBooking.Domain.Dtos
-@model IEnumerable<BookingModel>
+@model IEnumerable<HotelModel>
 
 @{
-    ViewData["Title"] = "Bookings";
+    ViewData["Title"] = "Hotel";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -11,17 +11,20 @@
 
     <thead>
         <p class="card">
-            <a asp-action="Create" class="btn btn-primary">ჯავშნის დამატება</a>
+            <a asp-action="Create" class="btn btn-primary">სასრუმროს დამატება</a>
         </p>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.checkInTime)
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.checkOutTime)
+                @Html.DisplayNameFor(model => model.Address)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.totalPrice)
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PicturePath)
             </th>
             <th></th>
         </tr>
@@ -31,13 +34,16 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.checkInTime)
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.checkOutTime)
+                    @Html.DisplayFor(modelItem => item.Address)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.totalPrice)
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PicturePath)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Edit</a>

@@ -4,6 +4,8 @@ namespace OnlineBooking.Domain.Dtos
 {
     public class HotelModel
     {
+        public long Id { get; set; }//for identity
+
         [Required(ErrorMessage ="This field is required :)")]
         [StringLength(30, MinimumLength = 3, ErrorMessage = "Name is not Valid")]
         public required string Name { get; set; }
