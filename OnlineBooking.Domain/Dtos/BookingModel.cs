@@ -4,6 +4,8 @@ namespace OnlineBooking.Domain.Dtos
 {
     public class BookingModel
     {
+        public long Id { get; set; }// for identity entites in MVC
+
         [Display(Name ="Room Identificator")]
         [Required(ErrorMessage ="This field is required")]
         public long RoomId { get; set; }

@@ -1,0 +1,50 @@
+﻿@using OnlineBooking.Domain.Dtos
+@model BookingModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>დეტალები</h2>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RoomId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RoomId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserID)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.checkInTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.checkInTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.checkOutTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.checkOutTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.totalPrice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.totalPrice)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+    <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-inline">
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
