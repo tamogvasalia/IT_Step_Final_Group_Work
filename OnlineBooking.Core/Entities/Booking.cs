@@ -2,7 +2,7 @@ using OnlineStore.Core.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Final_Project;
+namespace IT_Step_Final;
 
 [Table("Bookings")]
 public class Booking: BaseEntity

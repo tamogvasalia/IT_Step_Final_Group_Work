@@ -1,4 +1,4 @@
-﻿using Final_Project;
+﻿using IT_Step_Final;
 using Microsoft.AspNetCore.Identity;
 
 namespace OnlineStore.Core.Entities

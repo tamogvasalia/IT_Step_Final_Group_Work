@@ -1,5 +1,5 @@
-﻿using Final_Project.Data;
-using Final_Project.Models.Hotel;
+﻿using IT_Step_Final.Data;
+using IT_Step_Final.Models.Hotel;
 using Microsoft.EntityFrameworkCore;
 using OnlineStore.Core.Interfaces;
 

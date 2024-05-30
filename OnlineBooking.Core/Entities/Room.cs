@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Final_Project;
-using Final_Project.Models.Hotel;
+using IT_Step_Final;
+using IT_Step_Final.Models.Hotel;
 using OnlineStore.Core.Entities;
 
 [Table("Rooms")]

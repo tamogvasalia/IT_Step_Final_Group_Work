@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using Final_Project.Models;
+using IT_Step_Final.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
 using IT_Step_Final.Models;
 
-namespace Final_Project.Controllers;
+namespace IT_Step_Final.Controllers;
 
 public class HomeController : Controller
 {
@@ -21,7 +21,7 @@ public class HomeController : Controller
     {
         return View();
     }
-
+    
     public IActionResult Privacy()
     {
         return View();

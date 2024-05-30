@@ -1,4 +1,4 @@
-﻿using Final_Project.Models.Hotel;
+﻿using IT_Step_Final.Models.Hotel;
 
 namespace OnlineStore.Core.Interfaces
 {

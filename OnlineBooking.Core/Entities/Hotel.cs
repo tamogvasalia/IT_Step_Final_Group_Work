@@ -1,7 +1,7 @@
 using OnlineStore.Core.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-namespace Final_Project.Models.Hotel;
+namespace IT_Step_Final.Models.Hotel;
 
 [Table("Hotels")]
 public class Hotel:BaseEntity

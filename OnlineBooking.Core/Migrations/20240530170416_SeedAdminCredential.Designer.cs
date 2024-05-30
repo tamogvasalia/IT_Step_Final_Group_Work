@@ -12,20 +12,20 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace OnlineBooking.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240525214141_migrate")]
-    partial class migrate
+    [Migration("20240530170416_SeedAdminCredential")]
+    partial class SeedAdminCredential
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.5")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Final_Project.Booking", b =>
+            modelBuilder.Entity("IT_Step_Final.Booking", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -56,9 +56,29 @@ namespace OnlineBooking.Core.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Bookings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            RoomId = 1L,
+                            UserID = "user1",
+                            checkInTime = new DateTime(2024, 5, 20, 21, 4, 13, 696, DateTimeKind.Local).AddTicks(2348),
+                            checkOutTime = new DateTime(2024, 5, 25, 21, 4, 13, 696, DateTimeKind.Local).AddTicks(2372),
+                            totalPrice = 500.0
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            RoomId = 2L,
+                            UserID = "user2",
+                            checkInTime = new DateTime(2024, 5, 27, 21, 4, 13, 696, DateTimeKind.Local).AddTicks(2374),
+                            checkOutTime = new DateTime(2024, 5, 29, 21, 4, 13, 696, DateTimeKind.Local).AddTicks(2375),
+                            totalPrice = 300.0
+                        });
                 });
 
-            modelBuilder.Entity("Final_Project.Models.Hotel.Hotel", b =>
+            modelBuilder.Entity("IT_Step_Final.Models.Hotel.Hotel", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -88,6 +108,24 @@ namespace OnlineBooking.Core.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Hotels");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Address = "42 Sunset Boulevard",
+                            City = "Los Angeles",
+                            Name = "Hotel California",
+                            PicturePath = "hotelcalifornia.jpg"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Address = "1 Republic Avenue",
+                            City = "Zubrowka",
+                            Name = "The Grand Budapest Hotel",
+                            PicturePath = "grandbudapest.jpg"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -294,6 +332,38 @@ namespace OnlineBooking.Core.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "user1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "856818fa-8a02-481e-9be7-bd342e474e22",
+                            Email = "user1@example.com",
+                            EmailConfirmed = false,
+                            FirstName = "John",
+                            LastName = "Doe",
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "e3b96fd6-cf9c-4729-b73b-bf80fe94d2ff",
+                            TwoFactorEnabled = false,
+                            UserName = "user1@example.com"
+                        },
+                        new
+                        {
+                            Id = "user2",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "aa3cb2dc-ee43-4eb9-a364-082c3d5a87d0",
+                            Email = "user2@example.com",
+                            EmailConfirmed = false,
+                            FirstName = "Jane",
+                            LastName = "Doe",
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "d52cdbde-f77a-4cd9-95ff-7eeb4e7c0c54",
+                            TwoFactorEnabled = false,
+                            UserName = "user2@example.com"
+                        });
                 });
 
             modelBuilder.Entity("Room", b =>
@@ -334,6 +404,30 @@ namespace OnlineBooking.Core.Migrations
                     b.HasIndex("roomTypeId");
 
                     b.ToTable("Rooms");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            HotelId = 1L,
+                            Name = "Room 101",
+                            PicturePath = "room101.jpg",
+                            PricePerDay = 100.0,
+                            isAvailable = true,
+                            maxGuests = 2,
+                            roomTypeId = 1L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            HotelId = 1L,
+                            Name = "Room 102",
+                            PicturePath = "room102.jpg",
+                            PricePerDay = 150.0,
+                            isAvailable = true,
+                            maxGuests = 3,
+                            roomTypeId = 2L
+                        });
                 });
 
             modelBuilder.Entity("RoomType", b =>
@@ -355,9 +449,21 @@ namespace OnlineBooking.Core.Migrations
                         .IsDescending();
 
                     b.ToTable("RoomTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            TypeName = "Single"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            TypeName = "Double"
+                        });
                 });
 
-            modelBuilder.Entity("Final_Project.Booking", b =>
+            modelBuilder.Entity("IT_Step_Final.Booking", b =>
                 {
                     b.HasOne("Room", "Room")
                         .WithMany("books")
@@ -429,7 +535,7 @@ namespace OnlineBooking.Core.Migrations
 
             modelBuilder.Entity("Room", b =>
                 {
-                    b.HasOne("Final_Project.Models.Hotel.Hotel", "Hoteli")
+                    b.HasOne("IT_Step_Final.Models.Hotel.Hotel", "Hoteli")
                         .WithMany("Rooms")
                         .HasForeignKey("HotelId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -446,7 +552,7 @@ namespace OnlineBooking.Core.Migrations
                     b.Navigation("RoomType");
                 });
 
-            modelBuilder.Entity("Final_Project.Models.Hotel.Hotel", b =>
+            modelBuilder.Entity("IT_Step_Final.Models.Hotel.Hotel", b =>
                 {
                     b.Navigation("Rooms");
                 });
