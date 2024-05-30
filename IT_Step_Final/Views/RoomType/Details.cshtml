@@ -1,0 +1,25 @@
+﻿@using OnlineBooking.Domain.Dtos
+@model RoomTypeModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2> ტიპის დეტალები</h2>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TypeName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TypeName)
+        </dd>
+       
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">რედაქტირება</a>
+    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-sm btn-danger">წაშლა</a>
+    <a asp-action="Index" class="btn btn-secondary">უკან დაბრუნება</a>
+</div>

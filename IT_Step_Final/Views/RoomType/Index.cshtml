@@ -1,8 +1,8 @@
 ﻿@using OnlineBooking.Domain.Dtos
-@model IEnumerable<BookingModel>
+@model IEnumerable<RoomTypeModel>
 
 @{
-    ViewData["Title"] = "Bookings";
+    ViewData["Title"] = "Hotel";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -11,17 +11,11 @@
 
     <thead>
         <p class="card">
-            <a asp-action="Create" class="btn btn-primary">ჯავშნის დამატება</a>
+            <a asp-action="Create" class="btn btn-primary">ოთახის ტიპის  დამატება</a>
         </p>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.checkInTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.checkOutTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.totalPrice)
+                Name
             </th>
             <th></th>
         </tr>
@@ -31,13 +25,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.checkInTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.checkOutTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.totalPrice)
+                    @Html.DisplayFor(modelItem => item.TypeName)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">რედაქტირება</a>
@@ -48,4 +36,3 @@
         }
     </tbody>
 </table>
-

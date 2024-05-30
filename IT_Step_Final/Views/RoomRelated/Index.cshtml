@@ -1,0 +1,62 @@
+﻿@using OnlineBooking.Domain.Dtos
+@model IEnumerable<RoomViewModel>
+
+@{
+    ViewData["Title"] = "Hotel";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table table-striped">
+
+    <thead>
+        <p class="card">
+            <a asp-action="Create" class="btn btn-primary">ოთახის დამატება</a>
+        </p>
+        <tr>
+            <th>
+               Name
+            </th>
+            <th>
+                Max Guest
+            </th>
+            <th>
+               Avalibility
+            </th>
+            <th>
+               Hotel Name
+            </th>
+            <th>
+               Room Type
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.rooms.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.rooms.maxGuests)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.rooms.isAvailable)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HotelList.FirstOrDefault(io=>io.Value==item.rooms.HotelId.ToString()).Text);
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomTypeId.FirstOrDefault(io=>io.Value==item.rooms.roomTypeId.ToString()).Text);)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.rooms.Id" class="btn btn-sm btn-primary">რედაქტირება</a>
+                    <a asp-action="Details" asp-route-id="@item.rooms.Id" class="btn btn-sm btn-info">დეტალები</a>
+                    <a asp-action="Delete" asp-route-id="@item.rooms.Id" class="btn btn-sm btn-danger">წაშლა</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

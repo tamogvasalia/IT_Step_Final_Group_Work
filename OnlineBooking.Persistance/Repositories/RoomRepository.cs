@@ -36,8 +36,12 @@ namespace OnlineBooking.Persistance.Repositories
             {
                 ArgumentNullException.ThrowIfNull(entity,nameof(entity));
 
-                rooms.Remove(entity);
-                await _context.SaveChangesAsync();
+                var re= await rooms.FirstOrDefaultAsync(io=>io.RoomType == entity.RoomType&&io.Name==entity.Name);
+                if (re is not null)
+                {
+                    rooms.Remove(re);
+                    await _context.SaveChangesAsync();
+                }
             }
             catch (Exception)
             {

@@ -1,116 +1,208 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using IT_Step_Final.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBooking.Domain.Dtos;
 using OnlineBooking.Domain.Interfaces;
 
 namespace IT_Step_Final.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class RoomRelatedController : Controller
     {
-
         private readonly IroomRelatedServices roomservices;
-
-        public RoomRelatedController(IroomRelatedServices roomservices)
+        private readonly IbookingRelate bookrelate;
+        public RoomRelatedController(IroomRelatedServices roomservices, IbookingRelate bookrelate)
         {
-                this.roomservices = roomservices;
-        }
-        [AllowAnonymous]
-        public IActionResult Index()
-        {
-            return View();//method for  preview list of avalible  rooms
-        }
-
-        public ActionResult CreateRoomAsync()//for view// add new room view
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [Route(nameof(CreateRoomAsync))]
-        public Task CreateRoomAsync([FromBody] RoomModel entity)//add  room request
-        {
-            throw new NotImplementedException();
-        }
-
-        public ActionResult CreateroomTypeAsyncRoom()//for view
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [Route("[action]")]
-        public Task CreateroomTypeAsyncRoom([FromBody]RoomTypeModel entity)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        [HttpDelete]
-        [Route("{id:long}")]
-        public Task DeleteAsync([FromRoute]long id)
-        {
-            throw new NotImplementedException();
-        }
-
-        [HttpDelete]
-        [Route("[action]/{id:long}")]
-        public Task DeleteroomAsync([FromRoute]long id)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        [HttpGet]
-        [Route("[action]")]
-        public Task<IEnumerable<RoomModel>> GetAllRoomAsync()
-        {
-            throw new NotImplementedException();
+           this.roomservices = roomservices;
+            this.bookrelate = bookrelate;
         }
 
         [HttpGet]
-        [Route(nameof(GetAllRoomTypeAsync))]
-        public Task<IEnumerable<RoomTypeModel>> GetAllRoomTypeAsync(RoomTypeModel identity)
+        public async Task<ActionResult> Index()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var res = await roomservices.GetAllAsync(new RoomModel() { Name = "" });
+               List<RoomViewModel> list = new List<RoomViewModel>();
+                foreach (var room in res)
+                {
+                    RoomViewModel mod = new RoomViewModel();
+                    mod.rooms = room;
+                    var re = await roomservices.GetAllAsync(new RoomTypeModel() { TypeName = "d" });
+
+                    mod.RoomTypeId = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
+                    foreach (var item in re)
+                    {
+                        mod.RoomTypeId.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
+                        {
+                            Text = item.TypeName,
+                            Value = item.Id.ToString()
+                        }); 
+                    }
+
+                    var Hotels = await bookrelate.GetAllAsync(new HotelModel() {Address="",City="",Name="",PicturePath=""});
+
+                    mod.HotelList = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
+                    foreach (var item in Hotels)
+                    {
+                        mod.RoomTypeId.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
+                        {
+                            Text = item.Name,
+                            Value = item.Id.ToString()
+                        });
+                    }
+                }
+
+                return View(list);
+            }
+            catch (Exception)
+            {
+                return View(new List<RoomViewModel>());
+            }
         }
 
         [HttpGet]
-        [Route(nameof(GetRoomByIdAsync))]
-        public Task<RoomModel> GetRoomByIdAsync(long id)
+        public async Task< ActionResult> Create()//damateba
         {
-            throw new NotImplementedException();
+            RoomViewModel mod = new RoomViewModel();
+            var re = await roomservices.GetAllAsync(new RoomTypeModel() { TypeName = "d" });
+
+            mod.RoomTypeId = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
+            foreach (var item in re)
+            {
+                mod.RoomTypeId.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
+                {
+                    Text = item.TypeName,
+                    Value = item.Id.ToString()
+                });
+            }
+
+            var Hotels = await bookrelate.GetAllAsync(new HotelModel() { Address = "", City = "", Name = "", PicturePath = "" });
+
+            mod.HotelList = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
+            foreach (var item in Hotels)
+            {
+                mod.RoomTypeId.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
+                {
+                    Text = item.Name,
+                    Value = item.Id.ToString()
+                });
+            }
+            return View(mod);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(RoomViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await roomservices.CreateAsync(model.rooms);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception)
+                {
+                    return RedirectToAction(nameof(Create));
+                }
+            }
+            else
+            {
+                return BadRequest("Model state is not valid");
+            }
         }
 
         [HttpGet]
-        [Route(nameof(GetRoomTypeByIdAsync))]
-        public Task<RoomTypeModel> GetRoomTypeByIdAsync(long id)
+        public async Task<IActionResult> Edit(long id)//redaqtireba
         {
-            throw new NotImplementedException();
-        }
+            RoomViewModel mod = new RoomViewModel();
+            var res = await roomservices.GetByIdAsync(id, new RoomModel() { Name = "" });
+            if (res == null)
+            {
+                return NotFound();
+            }
+            mod.rooms = res;
+            var re = await roomservices.GetAllAsync(new RoomTypeModel() { TypeName = "d" });
 
-        public ActionResult UpdateRoomAsync()//add view for page
-        {
-            return View();
+            mod.RoomTypeId = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
+            foreach (var item in re)
+            {
+                mod.RoomTypeId.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
+                {
+                    Text = item.TypeName,
+                    Value = item.Id.ToString()
+                });
+            }
+
+            var Hotels = await bookrelate.GetAllAsync(new HotelModel() { Address = "", City = "", Name = "", PicturePath = "" });
+
+            mod.HotelList = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
+            foreach (var item in Hotels)
+            {
+                mod.RoomTypeId.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
+                {
+                    Text = item.Name,
+                    Value = item.Id.ToString()
+                });
+            }
+            return View(res);
         }
 
         [HttpPost]
-        [Route("room/{id:long}")]
-        public Task UpdateRoomAsync([FromRoute]long id,[FromBody]RoomModel entity)
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(RoomViewModel room)
         {
-            throw new NotImplementedException();
+            ArgumentNullException.ThrowIfNull(room, nameof(room));
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await roomservices.UpdateAsync(room.rooms);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception)
+                {
+                    return BadRequest();
+                }
+            }
+            return View(room);
         }
 
-        public ActionResult UpdateRoomTypeAsync()//add view for page
+        [HttpGet]
+        public async Task<ActionResult> Delete(long id)// washlis funqcia
         {
-            return View();
+            var Room = await roomservices.GetByIdAsync(id, new RoomModel() { Name = "" });
+            if (Room is not null)
+            {
+                try
+                {
+                    await roomservices.DeleteAsync(Room);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception exp)
+                {
+                    return BadRequest(exp.Message);
+                }
+
+            }
+            return BadRequest(" No such entity found");
         }
 
-        [HttpPost]
-        [Route("roomType/{id:long}")]
-        public Task UpdateAsync([FromRoute] long id,[FromBody]RoomTypeModel entity)
+        [HttpGet]
+        public async Task<ActionResult> Details(long id)// detaail action 
         {
-            throw new NotImplementedException();
+            try
+            {
+                var res = await roomservices.GetByIdAsync(id, new RoomModel() {  Name = "f"});
+                if (res is null) return NotFound("no entity found");
+                return View(res);
+            }
+            catch (Exception)
+            {
+                return BadRequest($"Could not find {id}");
+            }
         }
+
     }
 }
+

@@ -1,4 +1,4 @@
-﻿@model OnlineBooking.Domain.Dtos.BookingModel
+﻿@model BookingUniteModel;
 @{
     ViewData["Title"] = "Update Records";
 }
@@ -7,29 +7,23 @@
 
 <form asp-action="Edit" method="post">
     <div class="form-group">
-        <label asp-for="RoomId" class="control-label"></label>
-        <input asp-for="RoomId" class="form-control" readonly />
-        <span asp-validation-for="RoomId" class="text-danger"></span>
+        <label asp-for="bookingModel.RoomId">სასტუმრო</label>
+        <select asp-for="bookingModel.RoomId" asp-items="Model.HotelList" class="form-control"></select>
     </div>
     <div class="form-group">
-        <label asp-for="UserID" class="control-label"></label>
-        <input asp-for="UserID" class="form-control" />
-        <span asp-validation-for="UserID" class="text-danger"></span>
+        <label asp-for="bookingModel.checkInTime" class="control-label"></label>
+        <input asp-for="bookingModel.checkInTime" class="form-control" type="datetime-local" />
+        <span asp-validation-for="bookingModel.checkInTime" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="checkInTime" class="control-label"></label>
-        <input asp-for="checkInTime" class="form-control" type="datetime-local" />
-        <span asp-validation-for="checkInTime" class="text-danger"></span>
+        <label asp-for="bookingModel.checkOutTime" class="control-label"></label>
+        <input asp-for="bookingModel.checkOutTime" class="form-control" type="datetime-local" />
+        <span asp-validation-for="bookingModel.checkOutTime" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="checkOutTime" class="control-label"></label>
-        <input asp-for="checkOutTime" class="form-control" type="datetime-local" />
-        <span asp-validation-for="checkOutTime" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="totalPrice" class="control-label"></label>
-        <input asp-for="totalPrice" class="form-control" type="number" step="0.01" />
-        <span asp-validation-for="totalPrice" class="text-danger"></span>
+        <label asp-for="bookingModel.totalPrice" class="control-label"></label>
+        <input asp-for="bookingModel.totalPrice" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="bookingModel.totalPrice" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">ცვლიელების შენახვა</button>
 </form>
