@@ -34,14 +34,17 @@ namespace OnlineBooking.Persistance.Repositories
             {
                 if(entity != null)
                 {
-                    rooms.Remove(entity);
-                    await _context.SaveChangesAsync();
+                    var ent=await rooms.Where(r=>r.TypeName == entity.TypeName).FirstOrDefaultAsync();
+                    if (ent is not null)
+                    {
+                        rooms.Remove(ent);
+                        await _context.SaveChangesAsync();
+                    }
                 }
             }
-            catch (Exception)
+            catch (Exception exp)
             {
-
-                throw new ArgumentException($"Room Type {entity.TypeName} doesn't exist");
+                throw new ArgumentException( exp.Message,exp.StackTrace);
             }
         }
 

@@ -35,8 +35,12 @@ namespace OnlineBooking.Persistance.Repositories
             try
             {
                 ArgumentNullException.ThrowIfNull(entity,nameof(entity));
-                booking.Remove(entity);
-                await _context.SaveChangesAsync();
+                var res = await booking.FirstOrDefaultAsync(io => io.UserID == entity.UserID && io.checkInTime == entity.checkInTime && io.checkOutTime == io.checkOutTime);
+                if (res is not null)
+                {
+                    booking.Remove(res);
+                    await _context.SaveChangesAsync();
+                }
             }
             catch (Exception)
             { 

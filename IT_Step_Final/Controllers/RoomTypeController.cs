@@ -1,42 +1,49 @@
-﻿using Final_Project;
-using IT_Step_Final.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using IT_Step_Final.Models;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBooking.Domain.Dtos;
 using OnlineBooking.Domain.Interfaces;
 
 namespace IT_Step_Final.Controllers
 {
-    public class HotelController(IbookingRelate booking) : Controller
+    public class RoomTypeController : Controller
     {
-        private readonly IbookingRelate _bookingRelate= booking;
+        private readonly IroomRelatedServices ser;
+
+        public RoomTypeController(IroomRelatedServices ser)
+        {
+          this.ser = ser;
+        }
+
+        [HttpGet]
         public async Task<ActionResult> Index()
         {
             try
             {
+                var res = await ser.GetAllAsync(new RoomTypeModel() { TypeName = "" });
+                if(res is null) return NotFound();
 
-                var res = await _bookingRelate.GetAllAsync(new HotelModel() { Address = "", City = "", Name = "", PicturePath = "" });
                 return View(res);
             }
-            catch
+            catch (Exception exp)
             {
-                return View(new List<HotelModel>());
+                return View(new List<RoomTypeModel>());
             }
         }
 
+        [HttpGet]
         public ActionResult Create()//damateba
         {
-            return View();
+            return View(); ;
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(HotelModel model)
+        public async Task<ActionResult> Create(RoomTypeModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _bookingRelate.CreateAsync(model);
+                    await ser.CreateAsync(model);
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception)
@@ -53,25 +60,28 @@ namespace IT_Step_Final.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(long id)//redaqtireba
         {
-
-            var res = await _bookingRelate.GetByIdAsync(id, new HotelModel() {Address="",City="",Name="",PicturePath="" });
-            if (res == null)
+            try
             {
-                return NotFound();
+                var res = await ser.GetByIdAsync(id, new RoomTypeModel() { TypeName = "" });
+                if (res is null) return NotFound();
+                return View(res);
             }
-            return View(res);
+            catch (Exception exp)
+            {
+                return BadRequest(exp.Message);
+            }
         }
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(HotelModel booking)
+        public async Task<IActionResult> Edit(RoomTypeModel room)
         {
-            ArgumentNullException.ThrowIfNull(booking, nameof(booking));
+            ArgumentNullException.ThrowIfNull(room, nameof(room));
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _bookingRelate.UpdateAsync(booking);
+                    await ser.UpdateAsync(room);
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception)
@@ -79,18 +89,18 @@ namespace IT_Step_Final.Controllers
                     return BadRequest();
                 }
             }
-            return View(booking);
+            return View(room);
         }
 
         [HttpGet]
         public async Task<ActionResult> Delete(long id)// washlis funqcia
         {
-            var bookmodel = await _bookingRelate.GetByIdAsync(id, new HotelModel() {Address="",City="",Name="",PicturePath=""});
-            if (bookmodel is not null)
+            var Room = await ser.GetByIdAsync(id, new RoomTypeModel() { TypeName=""});
+            if (Room is not null)
             {
                 try
                 {
-                    await _bookingRelate.DeleteAsync(bookmodel);
+                    await ser.DeleteAsync(Room);
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception exp)
@@ -107,7 +117,7 @@ namespace IT_Step_Final.Controllers
         {
             try
             {
-                var res = await _bookingRelate.GetByIdAsync(id, new HotelModel() { Address="d",City="f",Name="f",PicturePath=""});
+                var res = await ser.GetByIdAsync(id, new RoomTypeModel() { TypeName="d" });
                 if (res is null) return NotFound("no entity found");
                 return View(res);
             }
@@ -116,8 +126,5 @@ namespace IT_Step_Final.Controllers
                 return BadRequest($"Could not find {id}");
             }
         }
-
-
-
     }
 }

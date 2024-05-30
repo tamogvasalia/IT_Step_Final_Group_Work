@@ -1,0 +1,48 @@
+﻿@model RoomViewModel
+@{
+    ViewData["Title"] = "Edit Room";
+}
+
+<h2>ოთახის ინფორმაციის განახლება</h2>
+
+<form asp-action="Edit" method="post" class="needs-validation" novalidate>
+
+    <div class="form-group">
+        <label asp-for="rooms.HotelId">სასტუმრო</label>
+        <select asp-for="rooms.HotelId" asp-items="Model.HotelList" class="form-control"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="rooms.roomTypeId">ოთახის ტიპი</label>
+        <select asp-for="rooms.roomTypeId" asp-items="Model.RoomTypeId" class="form-control"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="rooms.Name" class="control-label"></label>
+        <input asp-for="rooms.Name" class="form-control" type="text" />
+        <span asp-validation-for="rooms.Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="rooms.PricePerDay" class="control-label"></label>
+        <input asp-for="rooms.PricePerDay" class="form-control" type="number" />
+        <span asp-validation-for="rooms.PricePerDay" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="rooms.maxGuests" class="control-label"></label>
+        <input asp-for="rooms.maxGuests" class="form-control" type="number" />
+        <span asp-validation-for="rooms.maxGuests" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="rooms.isAvailable" class="control-label"></label>
+        <input asp-for="rooms.isAvailable" class="form-control" type="text" />
+        <span asp-validation-for="rooms.isAvailable" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="rooms.PicturePath" class="control-label"></label>
+        <input asp-for="rooms.PicturePath" class="form-control" type="text" />
+        <span asp-validation-for="rooms.PicturePath" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">განახლება</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

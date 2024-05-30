@@ -1,10 +1,10 @@
 ﻿@using OnlineBooking.Domain.Dtos
-@model HotelModel
+@model RoomModel
 @{
     ViewData["Title"] = "Details";
 }
 
-<h2>დეტალები</h2>
+<h2> ოთახის დეტალები</h2>
 
 <div>
     <hr />
@@ -16,16 +16,10 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
+            @Html.DisplayNameFor(model => model.isAvailable)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.City)
+            @Html.DisplayFor(model => model.isAvailable)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PicturePath)
@@ -33,10 +27,22 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PicturePath)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.maxGuests)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.maxGuests)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PricePerDay)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PricePerDay)
+        </dd>
     </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">რედაქტირება</a>
-    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-secondary">წაშლა</a>
+    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-sm btn-danger">წაშლა</a>
     <a asp-action="Index" class="btn btn-secondary">უკან დაბრუნება</a>
 </div>

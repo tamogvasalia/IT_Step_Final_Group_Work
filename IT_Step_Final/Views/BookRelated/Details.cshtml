@@ -30,9 +30,7 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
-    <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-inline">
-        <button type="submit" class="btn btn-danger">Delete</button>
-    </form>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">რედაქტირება</a>
+    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-secondary">წაშლა</a>
     <a asp-action="Index" class="btn btn-secondary">უკან დაბრუნება</a>
 </div>

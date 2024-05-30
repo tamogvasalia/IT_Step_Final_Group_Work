@@ -33,8 +33,13 @@ namespace OnlineBooking.Persistance.Repositories
             {
                 if (entity != null)
                 {
-                    hotelSet.Remove(entity);
-                    await _context.SaveChangesAsync();
+                    var ent = hotelSet.FirstOrDefault(ent => ent.Name == entity.Name
+                        );
+                    if (ent != null)
+                    {
+                        hotelSet.Remove(ent);
+                        await _context.SaveChangesAsync();
+                    }
                 } 
             }
             catch (Exception)
