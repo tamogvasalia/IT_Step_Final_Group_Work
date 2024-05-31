@@ -1,5 +1,6 @@
-﻿using Final_Project;
+﻿
 using IT_Step_Final.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBooking.Domain.Dtos;
@@ -7,6 +8,7 @@ using OnlineBooking.Domain.Interfaces;
 
 namespace IT_Step_Final.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class HotelController(IbookingRelate booking) : Controller
     {
         private readonly IbookingRelate _bookingRelate= booking;

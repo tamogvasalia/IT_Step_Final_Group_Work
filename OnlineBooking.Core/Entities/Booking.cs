@@ -11,7 +11,7 @@ public class Booking: BaseEntity
     [ForeignKey("Room")]
     public long RoomId { get; set; }
 
-    [ForeignKey("user")]
+    [ForeignKey("User")]
     public required string UserID { get; set; }
 
     [Required]

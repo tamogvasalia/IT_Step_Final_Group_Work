@@ -1,10 +1,5 @@
 ﻿using System;
-using IT_Step_Final.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.Extensions.DependencyInjection;
-using OnlineStore.Core.Entities;
 
 #nullable disable
 
@@ -42,56 +37,8 @@ namespace OnlineBooking.Core.Migrations
                 keyColumn: "Id",
                 keyValue: 2L,
                 columns: new[] { "checkInTime", "checkOutTime" },
-               
                 values: new object[] { new DateTime(2024, 5, 27, 21, 4, 13, 696, DateTimeKind.Local).AddTicks(2374), new DateTime(2024, 5, 29, 21, 4, 13, 696, DateTimeKind.Local).AddTicks(2375) });
-            var serviceProvider = new ServiceCollection()
-            .AddLogging()
-            .AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer("YourConnectionString"))
-            .AddIdentity<User, IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .BuildServiceProvider();
 
-            using (var scope = serviceProvider.CreateScope())
-            {
-                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
-
-                SeedRolesAndAdminUser(roleManager, userManager).GetAwaiter().GetResult();
-            }
-            private async Task SeedRolesAndAdminUser(RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
-            {
-                // Seed Roles
-                if (!await roleManager.RoleExistsAsync("Admin"))
-                {
-                    await roleManager.CreateAsync(new IdentityRole("Admin"));
-                }
-                if (!await roleManager.RoleExistsAsync("User"))
-                {
-                    await roleManager.CreateAsync(new IdentityRole("User"));
-                }
-
-                // Seed Admin User
-                var adminEmail = "admin@hotelitstepapp.com";
-                var adminPassword = "Admin@123456";
-
-                if (await userManager.FindByEmailAsync(adminEmail) == null)
-                {
-                    var adminUser = new User
-                    {
-                        UserName = adminEmail,
-                        Email = adminEmail,
-                        EmailConfirmed = true
-                    };
-
-                    var result = await userManager.CreateAsync(adminUser, adminPassword);
-
-                    if (result.Succeeded)
-                    {
-                        await userManager.AddToRoleAsync(adminUser, "Admin");
-                    }
-                }
-            }
         }
 
 

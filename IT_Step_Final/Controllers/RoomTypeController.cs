@@ -1,10 +1,12 @@
 ﻿using IT_Step_Final.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBooking.Domain.Dtos;
 using OnlineBooking.Domain.Interfaces;
 
 namespace IT_Step_Final.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RoomTypeController : Controller
     {
         private readonly IroomRelatedServices ser;

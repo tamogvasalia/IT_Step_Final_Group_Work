@@ -239,5 +239,20 @@ namespace OnlineBooking.Domain.Services
             }
         }
         #endregion
+
+        #region GetByUserId
+        public async Task<IEnumerable<BookingModel>> GetUserByIdAsync(string id,BookingModel model)
+        {
+            var allBookings = await work.bookReposiotry.GetAllAsync();
+            var userBookings = allBookings.Where(b => b.UserID == id).ToList();
+            return map.Map<IEnumerable<BookingModel>>(userBookings);
+        }
+
+        public Task<IEnumerable<BookingModel>> GetUserByIdAsync(string id, HotelModel identity)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

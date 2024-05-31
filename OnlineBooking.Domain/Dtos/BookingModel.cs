@@ -12,7 +12,7 @@ namespace OnlineBooking.Domain.Dtos
 
         [Display(Name ="Userd Identificator")]
         [Required(ErrorMessage ="This field is required")]
-        public required string UserID { get; set; }
+        public string UserID { get; set; }
 
         [Required(ErrorMessage ="THis field is required :(")]
         public DateTime checkInTime { get; set; }

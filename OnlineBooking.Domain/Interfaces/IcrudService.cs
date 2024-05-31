@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OnlineBooking.Domain.Dtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace OnlineBooking.Domain.Interfaces
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
         Task<T> GetByIdAsync(K id, T identity);
-        Task<IEnumerable<T>> GetAllAsync( T identity);
+        Task<IEnumerable<T>> GetAllAsync(T identity);
+        Task<IEnumerable<BookingModel>> GetUserByIdAsync(string id,T identity);
     }
 }

@@ -6,7 +6,7 @@ using OnlineBooking.Domain.Interfaces;
 
 namespace IT_Step_Final.Controllers
 {
-    //[Authorize]
+    [Authorize(Roles ="Admin")]
     public class RoomRelatedController : Controller
     {
         private readonly IroomRelatedServices roomservices;
@@ -82,7 +82,7 @@ namespace IT_Step_Final.Controllers
             mod.HotelList = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
             foreach (var item in Hotels)
             {
-                mod.RoomTypeId.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
+                mod.HotelList.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
                 {
                     Text = item.Name,
                     Value = item.Id.ToString()
@@ -110,6 +110,7 @@ namespace IT_Step_Final.Controllers
             {
                 return BadRequest("Model state is not valid");
             }
+
         }
 
         [HttpGet]
@@ -139,7 +140,7 @@ namespace IT_Step_Final.Controllers
             mod.HotelList = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
             foreach (var item in Hotels)
             {
-                mod.RoomTypeId.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
+                mod.HotelList.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
                 {
                     Text = item.Name,
                     Value = item.Id.ToString()

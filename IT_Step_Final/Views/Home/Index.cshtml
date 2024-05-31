@@ -1,8 +1,28 @@
-﻿@{
+﻿@using OnlineBooking.Domain.Dtos
+@{
     ViewData["Title"] = "IT Step";
 }
+@model IEnumerable<HotelModel>
 
 <div class="text-center">
     <h1 class="display-4">კეთილი იყოს თქვენი მობრძანრება</h1>
     <p>გაიგე მეტი <a href="https://learn.microsoft.com/aspnet/core">IT STEP GEORGIA</a>.</p>
+    <div class="container">
+    <div class="row">
+        @foreach (var hotel in Model)
+            {
+                <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                    <div class="card">
+                        <img class="card-img img-fluid img-thumbnail img" src="@Url.Content(hotel.PicturePath)">
+                        <div class="card-block">
+                            <h5 class="text-bold">@hotel.Name</h5>
+                        </div>
+                    </div>
+                </div>
+            }
+        
+    </div>
+    </div>
 </div>
+
+

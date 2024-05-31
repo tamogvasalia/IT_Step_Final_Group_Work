@@ -191,6 +191,18 @@ namespace OnlineBooking.Domain.Services
             }
         }
 
+        public Task<IEnumerable<BookingModel>> GetUserByIdAsync(string id, RoomModel identity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<BookingModel>> GetUserByIdAsync(string id, RoomTypeModel identity)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
         #endregion
 
         #region Update

@@ -8,7 +8,7 @@ namespace OnlineBooking.Domain.Dtos
 
         [Required(ErrorMessage ="This field is required :)")]
         [StringLength(30, MinimumLength = 3, ErrorMessage = "Name is not Valid")]
-        public required string Name { get; set; }
+        public string Name { get; set; }
 
         [Required(ErrorMessage = "This field is required :)")]
         [StringLength(30, MinimumLength = 3, ErrorMessage = "Address must be  between  3-30 character")]

@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+.row img{
+   align-self: center;
+   max-height: 75vh;
+   width: auto;
+}

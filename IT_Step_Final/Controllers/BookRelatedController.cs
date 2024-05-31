@@ -9,7 +9,7 @@ using OnlineStore.Core.Entities;
 namespace IT_Step_Final.Controllers
 {
 
-    //[Authorize]
+    [Authorize]
     public class BookRelatedController : Controller
     {
         private readonly IbookingRelate bookrelate;
@@ -22,18 +22,8 @@ namespace IT_Step_Final.Controllers
 
         public async Task<IActionResult> Index()//mtavari gverdi
         {
-            //if (User.Identity is null)
-            //{
-            //    return Unauthorized("first you must authorize");
-            //}
-            //var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            //if (user == null)
-            //{
-            //    return Unauthorized();
-            //}
             try
             {
-
                 var identity = new BookingModel { UserID = "ddfdf" };
                 var bookings = await bookrelate.GetAllAsync(identity);
                 return View(bookings);
@@ -44,7 +34,7 @@ namespace IT_Step_Final.Controllers
                 return View(new List<BookingModel>());
             }
         }
-
+        [HttpGet]
         public async Task<ActionResult> Create()//damateba
         {
             var bookingunite = new BookingUniteModel();
@@ -68,9 +58,21 @@ namespace IT_Step_Final.Controllers
             {
                 try
                 {
+                    if (!User.Identity.IsAuthenticated)
+                    {
+                        // login pageze ushvebs
+                        return RedirectToAction("Login", "Account");
+                    }
+
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                    if (user == null)
+                    {
+                        ModelState.AddModelError("", "User not found.");
+                        return View(model);
+                    }
+
                     model.UserID = user.Id;
-                   await  bookrelate.CreateAsync(model);
+                    await bookrelate.CreateAsync(model);
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception)
