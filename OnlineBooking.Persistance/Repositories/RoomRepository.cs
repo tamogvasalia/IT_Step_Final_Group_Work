@@ -1,6 +1,7 @@
 ﻿using IT_Step_Final.Data;
 using Microsoft.EntityFrameworkCore;
 using OnlineStore.Core.Interfaces;
+using System.Threading.Channels;
 
 namespace OnlineBooking.Persistance.Repositories
 {
@@ -17,12 +18,12 @@ namespace OnlineBooking.Persistance.Repositories
             try
             {
                 ArgumentNullException.ThrowIfNull(entity,nameof(entity));
-                if(await rooms.AnyAsync(io=>io.RoomType == entity.RoomType &&io.maxGuests==entity.maxGuests&&io.isAvailable==entity.isAvailable))
+                if (!await rooms.AnyAsync(i => i.Name == entity.Name))
                 {
                     await rooms.AddAsync(entity);
                     await _context.SaveChangesAsync();
                 }
-                throw new ArgumentException("such entity already exist in DB!");
+                //throw new ArgumentException("such entity already exist in DB!");
             }
             catch (Exception)
             { 
@@ -36,10 +37,10 @@ namespace OnlineBooking.Persistance.Repositories
             {
                 ArgumentNullException.ThrowIfNull(entity,nameof(entity));
 
-                var re= await rooms.FirstOrDefaultAsync(io=>io.RoomType == entity.RoomType&&io.Name==entity.Name);
-                if (re is not null)
+                var res=await rooms.FindAsync(entity.Id);
+                if (res is not null)
                 {
-                    rooms.Remove(re);
+                    rooms.Remove(res);
                     await _context.SaveChangesAsync();
                 }
             }
@@ -85,8 +86,17 @@ namespace OnlineBooking.Persistance.Repositories
             try
             {
                ArgumentNullException.ThrowIfNull(entity,nameof(entity));
-                rooms.Update(entity);
-                await _context.SaveChangesAsync();
+                var res= await rooms.FindAsync(entity.Id);
+                if (res is not null)
+                {
+                    res.PicturePath= entity.PicturePath;
+                    res.PricePerDay = entity.PricePerDay;
+                    res.isAvailable = entity.isAvailable;       
+                    res.maxGuests = entity.maxGuests;
+                    res.Name = entity.Name;
+                    rooms.Update(res);
+                    await _context.SaveChangesAsync();
+                }
             }
             catch (Exception)
             {

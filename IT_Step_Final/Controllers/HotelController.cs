@@ -8,7 +8,7 @@ using OnlineBooking.Domain.Interfaces;
 
 namespace IT_Step_Final.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class HotelController(IbookingRelate booking) : Controller
     {
         private readonly IbookingRelate _bookingRelate= booking;
@@ -68,20 +68,15 @@ namespace IT_Step_Final.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(HotelModel booking)
         {
-            ArgumentNullException.ThrowIfNull(booking, nameof(booking));
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    await _bookingRelate.UpdateAsync(booking);
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (Exception)
-                {
-                    return BadRequest();
-                }
+                await _bookingRelate.UpdateAsync(booking);
+                return RedirectToAction(nameof(Index));
             }
-            return View(booking);
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet]

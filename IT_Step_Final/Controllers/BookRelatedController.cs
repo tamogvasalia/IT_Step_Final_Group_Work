@@ -13,11 +13,13 @@ namespace IT_Step_Final.Controllers
     public class BookRelatedController : Controller
     {
         private readonly IbookingRelate bookrelate;
+        private readonly IroomRelatedServices roomRelatedServices;
         private readonly UserManager<User> _userManager;
-        public BookRelatedController(IbookingRelate bookrelate, UserManager<User> userManager)
+        public BookRelatedController(IroomRelatedServices ser,IbookingRelate bookrelate, UserManager<User> userManager)
         {
             this.bookrelate = bookrelate;
             _userManager = userManager;
+            roomRelatedServices = ser;
         }
 
         public async Task<IActionResult> Index()//mtavari gverdi
@@ -34,13 +36,14 @@ namespace IT_Step_Final.Controllers
                 return View(new List<BookingModel>());
             }
         }
+
         [HttpGet]
         public async Task<ActionResult> Create()//damateba
         {
             var bookingunite = new BookingUniteModel();
-            var hotels=await bookrelate.GetAllAsync(new HotelModel { Address="undefined",City="undefined",Name="undefined",PicturePath="undefined" });
+            var rooms = await roomRelatedServices.GetAllAsync(new RoomModel());
             bookingunite.HotelList = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
-            foreach (var item in hotels)//chavwert bazashi arsebul sastumrooebs
+            foreach (var item in rooms)//chavwert bazashi arsebul sastumrooebs
             {
                 bookingunite.HotelList.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
                 {
@@ -52,37 +55,30 @@ namespace IT_Step_Final.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(BookingModel model)
+        public async Task<ActionResult> Create(BookingUniteModel model)
         {
-            if (ModelState.IsValid)
+            await Console.Out.WriteLineAsync( model.bookingModel.totalPrice.ToString());
+            try
             {
-                try
+                if (!User.Identity.IsAuthenticated)
                 {
-                    if (!User.Identity.IsAuthenticated)
-                    {
-                        // login pageze ushvebs
-                        return RedirectToAction("Login", "Account");
-                    }
-
-                    var user = await _userManager.FindByNameAsync(User.Identity.Name);
-                    if (user == null)
-                    {
-                        ModelState.AddModelError("", "User not found.");
-                        return View(model);
-                    }
-
-                    model.UserID = user.Id;
-                    await bookrelate.CreateAsync(model);
-                    return RedirectToAction(nameof(Index));
+                    // login pageze ushvebs
+                    return RedirectToAction("Login", "Account");
                 }
-                catch (Exception)
+                await Console.Out.WriteLineAsync(  model.bookingModel.RoomId.ToString());
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                if (user == null)
                 {
-                    return RedirectToAction(nameof(Create));
+                    ModelState.AddModelError("", "User not found.");
+                    return View(model);
                 }
+                model.bookingModel.UserID = user.Id;
+                await bookrelate.CreateAsync(model.bookingModel);
+                return RedirectToAction(nameof(Index));
             }
-            else
+            catch (Exception exp)
             {
-                return BadRequest("Model state is not valid");
+                return Content(exp.Message);
             }
         }
 
@@ -97,9 +93,9 @@ namespace IT_Step_Final.Controllers
                 return NotFound();
             }
             var bookingunite = new BookingUniteModel();
-            var hotels = await bookrelate.GetAllAsync(new HotelModel { Address = "undefined", City = "undefined", Name = "undefined", PicturePath = "undefined" });
+            var rooms = await roomRelatedServices.GetAllAsync(new RoomModel());
             bookingunite.HotelList = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
-            foreach (var item in hotels)//chavwert bazashi arsebul sastumrooebs
+            foreach (var item in rooms)//chavwert bazashi arsebul sastumrooebs
             {
                 bookingunite.HotelList.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
                 {
@@ -108,27 +104,23 @@ namespace IT_Step_Final.Controllers
                 });
             }
             bookingunite.bookingModel = res;
-            return View(res);
+            return View(bookingunite);
         }
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(BookingModel booking)
+        public async Task<IActionResult> Edit(BookingUniteModel booking)
         {
-             ArgumentNullException.ThrowIfNull(booking, nameof(booking));
-            if (ModelState.IsValid)
+            ArgumentNullException.ThrowIfNull(booking, nameof(booking));
+            try
             {
-                try
-                {
-                    await bookrelate.UpdateAsync(booking);
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (Exception)
-                {
-                    return BadRequest();
-                }
+                await bookrelate.UpdateAsync(booking.bookingModel);
+                return RedirectToAction(nameof(Index));
             }
-            return View(booking);
+            catch (Exception exp)
+            {
+                return Content(exp.Message);
+            }
         }
 
         [HttpGet]

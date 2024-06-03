@@ -19,7 +19,7 @@ namespace OnlineBooking.Persistance.Repositories
             try
             {
                 ArgumentNullException.ThrowIfNull(entity, nameof(entity));
-
+                await Console.Out.WriteLineAsync(   entity.totalPrice.ToString());
                 await booking.AddAsync(entity);
 
                 await _context.SaveChangesAsync();
@@ -35,7 +35,7 @@ namespace OnlineBooking.Persistance.Repositories
             try
             {
                 ArgumentNullException.ThrowIfNull(entity,nameof(entity));
-                var res = await booking.FirstOrDefaultAsync(io => io.UserID == entity.UserID && io.checkInTime == entity.checkInTime && io.checkOutTime == io.checkOutTime);
+                var res = await booking.FirstOrDefaultAsync(io => io.UserID == entity.UserID&&io.totalPrice==entity.totalPrice);
                 if (res is not null)
                 {
                     booking.Remove(res);
@@ -52,9 +52,16 @@ namespace OnlineBooking.Persistance.Repositories
         {
             try
             {
-                ArgumentNullException.ThrowIfNull(entity,nameof (entity));
-                booking.Update(entity);
-                await _context.SaveChangesAsync();
+                ArgumentNullException.ThrowIfNull(entity, nameof(entity));
+                var res = await booking.FindAsync(entity.Id);
+                if (res is not null)
+                {
+                    res.checkInTime = entity.checkInTime;
+                    res.checkOutTime = entity.checkOutTime;
+                    res.totalPrice = entity.totalPrice;
+                    booking.Update(entity);
+                    await _context.SaveChangesAsync();
+                }
             }
             catch (Exception)
             {

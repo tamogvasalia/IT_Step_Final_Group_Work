@@ -8,7 +8,7 @@ namespace OnlineBooking.Domain.Dtos
         public long Id { get; set; }
         [Required(ErrorMessage ="Name is required :(")]
         [StringLength(30, MinimumLength = 3, ErrorMessage = "Name format Is not valid")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [Range(0, double.MaxValue)]
         public double PricePerDay { get; set; }

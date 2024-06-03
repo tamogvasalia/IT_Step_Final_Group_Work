@@ -4,14 +4,10 @@ using OnlineStore.Core.Interfaces;
 using OnlineBooking.Persistance.Repositories;
 using OnlineBooking.Persistance.UniteOfWorkRelated;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
 using OnlineBooking.Domain.Mapper;
 using OnlineBooking.Domain.Interfaces;
 using OnlineBooking.Domain.Services;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using IT_Step_Final.Data;
 
 
@@ -39,7 +35,7 @@ builder.Services.AddAutoMapper(typeof(AuttoMapper));
 builder.Services.AddDbContext<ApplicationDbContext>(
     options =>
     {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationDbContextConnection"));
 
     }
 );

@@ -1,5 +1,5 @@
 ﻿@using OnlineBooking.Domain.Dtos
-@model IEnumerable<RoomViewModel>
+@model IEnumerable<RoomModel>
 
 @{
     ViewData["Title"] = "Hotel";
@@ -18,16 +18,16 @@
                Name
             </th>
             <th>
-                Max Guest
+               Price Per day
             </th>
             <th>
                Avalibility
             </th>
             <th>
-               Hotel Name
+             MaxGuest
             </th>
             <th>
-               Room Type
+               Hotel Id
             </th>
             <th></th>
         </tr>
@@ -37,24 +37,24 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.rooms.Name)
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.rooms.maxGuests)
+                    @Html.DisplayFor(modelItem => item.PricePerDay)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.rooms.isAvailable)
+                    @Html.DisplayFor(modelItem => item.isAvailable)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.HotelList.FirstOrDefault(io=>io.Value==item.rooms.HotelId.ToString()).Text);
+                    @Html.DisplayFor(modelItem => item.maxGuests )
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RoomTypeId.FirstOrDefault(io=>io.Value==item.rooms.roomTypeId.ToString()).Text);)
+                    @Html.DisplayFor(modelItem => item.HotelId)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.rooms.Id" class="btn btn-sm btn-primary">რედაქტირება</a>
-                    <a asp-action="Details" asp-route-id="@item.rooms.Id" class="btn btn-sm btn-info">დეტალები</a>
-                    <a asp-action="Delete" asp-route-id="@item.rooms.Id" class="btn btn-sm btn-danger">წაშლა</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">რედაქტირება</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">დეტალები</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">წაშლა</a>
                 </td>
             </tr>
         }

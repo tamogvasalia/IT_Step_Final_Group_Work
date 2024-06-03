@@ -23,7 +23,7 @@ namespace OnlineBooking.Domain.Services
                 if (!string.IsNullOrEmpty(entity.Name) && !string.IsNullOrEmpty(entity.PicturePath))
                 {
                     var mapped = map.Map<Room>(entity);
-                    if ((mapped is not null))
+                    if (mapped is not null)
                     {
                         await work.roomRepository.AddAsync(mapped);
                     }
@@ -234,6 +234,7 @@ namespace OnlineBooking.Domain.Services
                 {
                     throw new RoomServiceRelateException("Mapped  not was successfully :(");
                 }
+              
                 await work.roomTypeRepository.UpdateAsync(mapped);
             }
             catch (Exception)

@@ -6,7 +6,7 @@ using OnlineBooking.Domain.Interfaces;
 
 namespace IT_Step_Final.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class RoomTypeController : Controller
     {
         private readonly IroomRelatedServices ser;

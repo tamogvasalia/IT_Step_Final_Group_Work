@@ -76,10 +76,9 @@ namespace OnlineBooking.Persistance.Repositories
                 var existingType = await GetByIdAsync(entity.Id);
                 if(existingType != null)
                 {
-                    _context.Entry(existingType).CurrentValues.SetValues(entity);
+                   existingType.TypeName=entity.TypeName;
                     await _context.SaveChangesAsync();
                 }
-                throw new KeyNotFoundException($"Room Type {entity.Id} not found/doesn't exist");
             }
             catch (Exception)
             {

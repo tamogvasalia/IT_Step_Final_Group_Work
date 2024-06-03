@@ -80,7 +80,10 @@ namespace OnlineBooking.Persistance.Repositories
                 throw new KeyNotFoundException($"Hotel with id {entity.Id} not found");             
             }
 
-            _context.Entry(oldHotel).CurrentValues.SetValues(entity);
+            oldHotel.PicturePath = entity.PicturePath;
+            oldHotel.Address= entity.Address;
+            oldHotel.Name = entity.Name;
+            oldHotel.City = entity.City;
             await _context.SaveChangesAsync();
         }
     }

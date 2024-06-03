@@ -19,32 +19,17 @@ namespace OnlineBooking.Domain.Services
         #region Create
         public async Task CreateAsync(BookingModel entity)
         {
-            try
+
+            ArgumentNullException.ThrowIfNull(entity, nameof(entity));
+            var mapped = map.Map<Booking>(entity);
+
+            if (mapped is not null)
             {
-              ArgumentNullException.ThrowIfNull(entity, nameof(entity));
-                if (entity.checkInTime > entity.checkOutTime)
-                {
-                    throw new BookRelatedException("Somethings Unusuall");
-                }
-                var mapped= map.Map<Booking>(entity);
-                
-                if(mapped is not null)
-                {
-                    var res = await work.roomRepository.GetByIdAsync(mapped.RoomId);
-                    if (res is null)
-                    {
-                        throw new BookRelatedException("No connected TableRoom Exist , Please  choice  Correct room!");
-                    }
-                    await work.bookReposiotry.AddAsync(mapped);
-                }
-                else
-                {
-                    throw new BookRelatedException("Mapped  not was succesfully");
-                }
+                await work.bookReposiotry.AddAsync(mapped);
             }
-            catch (Exception)
+            else
             {
-                throw;
+                throw new BookRelatedException("Mapped  not was succesfully");
             }
         }
 
@@ -212,7 +197,6 @@ namespace OnlineBooking.Domain.Services
                     throw new BookRelatedException("Mapped was Unsuccesfull");
                 }
                 await work.bookReposiotry.UpdateAsync(mapped);
-                throw new BookRelatedException("No entity found while searching for record");
             }
             catch (Exception)
             {
@@ -231,7 +215,7 @@ namespace OnlineBooking.Domain.Services
                     throw new BookRelatedException("Mapped was Unsuccesfull");
                 }
                 await work.hotelRepository.UpdateAsync(mapped);
-                throw new BookRelatedException("No entity found while searching for record");
+                
             }
             catch (Exception)
             {
