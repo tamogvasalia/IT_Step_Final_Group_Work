@@ -21,11 +21,11 @@
         <input asp-for="bookingModel.checkOutTime" class="form-control" type="date" />
         <span asp-validation-for="bookingModel.checkOutTime" class="text-danger"></span>
     </div>
-    <div class="form-group">
+    @* <div class="form-group">
         <label asp-for="bookingModel.totalPrice" class="control-label"></label>
-        <input asp-for="bookingModel.totalPrice" class="form-control" type="number" step="0.01" />
+        <input  asp-for="bookingModel.totalPrice" class="form-control" type="number" step="0.01" />
         <span asp-validation-for="bookingModel.totalPrice" class="text-danger"></span>
-    </div>
+    </div> *@
     <button type="submit" class="btn btn-primary">დამატება</button>
 </form>
 

@@ -51,12 +51,16 @@ namespace IT_Step_Final.Controllers
                     Value = item.Id.ToString(),
                 });
             }
+            
             return View(bookingunite);
         }
 
         [HttpPost]
         public async Task<ActionResult> Create(BookingUniteModel model)
         {
+            var room = await roomRelatedServices.GetByIdAsync(model.bookingModel.RoomId,new RoomModel());
+            var pricePerDay = room.PricePerDay;
+            var days = (model.bookingModel.checkOutTime - model.bookingModel.checkInTime).TotalDays;
             await Console.Out.WriteLineAsync( model.bookingModel.totalPrice.ToString());
             try
             {
@@ -73,6 +77,7 @@ namespace IT_Step_Final.Controllers
                     return View(model);
                 }
                 model.bookingModel.UserID = user.Id;
+                model.bookingModel.totalPrice = days * pricePerDay;
                 await bookrelate.CreateAsync(model.bookingModel);
                 return RedirectToAction(nameof(Index));
             }
