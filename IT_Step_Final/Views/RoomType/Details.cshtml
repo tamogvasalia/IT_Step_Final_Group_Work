@@ -19,7 +19,12 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">რედაქტირება</a>
-    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-sm btn-danger">წაშლა</a>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">რედაქტირება</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-sm btn-danger">წაშლა</a>
+
+    }
+    
     <a asp-action="Index" class="btn btn-secondary">უკან დაბრუნება</a>
 </div>

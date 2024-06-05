@@ -7,6 +7,7 @@ namespace OnlineStore.Core.Entities
     {
         public string FirstName { get; set; } = "";//default value
         public string LastName { get; set; } = "";
+        public double TotalBudget { get; set; } = 0;
         public virtual IEnumerable<Booking> Books { get; set; }
     }
 }

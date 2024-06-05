@@ -1,42 +1,37 @@
 ﻿@using OnlineBooking.Domain.Dtos
 @model HotelModel
+
 @{
     ViewData["Title"] = "Details";
 }
 
-<h2>დეტალები</h2>
+<div class="container mt-5">
+    <h2 class="mb-4">დეტალები</h2>
 
-<div>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.City)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PicturePath)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PicturePath)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">რედაქტირება</a>
-    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-secondary">წაშლა</a>
-    <a asp-action="Index" class="btn btn-secondary">უკან დაბრუნება</a>
+    <div class="card">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-2">სახელი</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.Name)</dd>
+
+                <dt class="col-sm-2">მისამართი</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.Address)</dd>
+
+                <dt class="col-sm-2">ქალაქი</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.City)</dd>
+
+                <dt class="col-sm-2">სურათის ბილიკი</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.PicturePath)</dd>
+            </dl>
+        </div>
+        <div class="card-footer text-end">
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary me-2">რედაქტირება</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger me-2">წაშლა</a>
+            }
+            
+            <a asp-action="Index" class="btn btn-secondary">უკან დაბრუნება</a>
+        </div>
+    </div>
 </div>

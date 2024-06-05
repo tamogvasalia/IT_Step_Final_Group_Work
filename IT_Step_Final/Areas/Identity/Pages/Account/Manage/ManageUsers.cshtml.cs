@@ -19,7 +19,7 @@ namespace IT_Step_Final.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<User> _userManager;
         private readonly IbookingRelate _bookService;
 
-        public ManageUsersModel(UserManager<User> userManager,IbookingRelate bookService)
+        public ManageUsersModel(UserManager<User> userManager, IbookingRelate bookService)
         {
             _userManager = userManager;
             _bookService = bookService;
@@ -34,9 +34,10 @@ namespace IT_Step_Final.Areas.Identity.Pages.Account.Manage
 
             foreach (var user in users)
             {
-                var bookings = await _bookService.GetUserByIdAsync(user.Id,new BookingModel() { UserID = user.Id});
+                var bookings = await _bookService.GetUserByIdAsync(user.Id, new BookingModel() { UserID = user.Id });
                 var userViewModel = new UserViewModel
                 {
+                    UserId = user.Id,
                     Email = user.Email,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
@@ -47,10 +48,38 @@ namespace IT_Step_Final.Areas.Identity.Pages.Account.Manage
 
             Users = userViewModels;
         }
+
+        public async Task<IActionResult> OnPostDeleteAsync(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                return RedirectToPage();
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return Page();
+        }
     }
 
     public class UserViewModel
     {
+        public string UserId { get; set; }
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
