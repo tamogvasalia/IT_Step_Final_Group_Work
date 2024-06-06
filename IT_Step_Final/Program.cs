@@ -9,6 +9,7 @@ using OnlineBooking.Domain.Mapper;
 using OnlineBooking.Domain.Interfaces;
 using OnlineBooking.Domain.Services;
 using IT_Step_Final.Data;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 
 
@@ -27,6 +28,7 @@ builder.Services.AddScoped<IUniteOfWork, UniteOfWork>();
 builder.Services.AddScoped<IbookingRelate, BookRelatedServices>();
 builder.Services.AddScoped<IroomRelatedServices,RoomRelatedServices>();
 builder.Services.AddScoped<IUserRelated,UserRelatedServices>();
+
 
 //inject mapper
 builder.Services.AddAutoMapper(typeof(AuttoMapper));

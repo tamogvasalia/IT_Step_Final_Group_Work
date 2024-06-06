@@ -42,6 +42,7 @@ namespace IT_Step_Final.Areas.Identity.Pages.Account.Manage
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Bookings = bookings
+                    
                 };
                 userViewModels.Add(userViewModel);
             }

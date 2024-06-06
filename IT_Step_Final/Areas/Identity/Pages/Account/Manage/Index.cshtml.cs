@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using OnlineBooking.Domain.Dtos;
+using OnlineBooking.Domain.Interfaces;
 using OnlineStore.Core.Entities;
 
 namespace IT_Step_Final.Areas.Identity.Pages.Account.Manage
@@ -20,15 +22,18 @@ namespace IT_Step_Final.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly IbookingRelate _bookRelatedServices;
 
         public IndexModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            IbookingRelate bookRelatedServices)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             this.roleManager = roleManager;
+            _bookRelatedServices = bookRelatedServices;
         }
 
         public string Username { get; set; }
@@ -42,6 +47,9 @@ namespace IT_Step_Final.Areas.Identity.Pages.Account.Manage
         public InputModel Input { get; set; }
 
         public IList<string> UserRoles { get; set; }
+
+        public IEnumerable<BookingModel> Bookings { get; set; }
+        public IEnumerable<HotelModel> Hotels { get; set; } 
 
 
         public class InputModel
@@ -57,7 +65,7 @@ namespace IT_Step_Final.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             UserRoles = await _userManager.GetRolesAsync(user);
-
+            Bookings = await _bookRelatedServices.GetUserByIdAsync(user.Id, new BookingModel() { UserID = user.Id });
             Username = userName;
 
             Input = new InputModel

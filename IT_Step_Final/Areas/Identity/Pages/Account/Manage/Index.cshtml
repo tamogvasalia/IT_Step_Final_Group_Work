@@ -32,6 +32,19 @@
                     }
                 </ul>
             </div>
+            <div class="mb-3 form-floating">
+                <h5>User Roles</h5>
+                <ul class="list-group">
+                    @foreach (var book in Model.Bookings)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Existing Bookings:
+                            <span class="badge bg-primary rounded-pill">Room :@book.RoomId</span>
+                            <span class="badge bg-primary rounded-pill">Price: @book.totalPrice</span>
+                        </li>
+                    }
+                </ul>
+            </div>
 
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </form>

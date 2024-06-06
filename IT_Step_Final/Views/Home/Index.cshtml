@@ -10,6 +10,15 @@
     <p class="lead">გაიგე მეტი <a href="https://learn.microsoft.com/aspnet/core" class="text-decoration-none">IT STEP GEORGIA</a>.</p>
 </div>
 
+<form method="get" asp-action="Search" asp-controller="Home" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="query" class="form-control" placeholder="Search by name or city" value="@Context.Request.Query["query"]">
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </div>
+</form>
+
 <div class="container mt-5">
     <div class="row">
         @foreach (var hotel in Model)
@@ -19,7 +28,7 @@
                     <img class="card-img-top img-fluid img-thumbnail" src="@Url.Content(hotel.PicturePath)" alt="@hotel.Name">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title text-bold">@hotel.Name</h5>
-                        <p class="card-text mt-auto">Description or other details can go here.</p>
+                        <p class="card-text mt-auto">@hotel.Address</p>
                     </div>
                     <div class="card-footer bg-transparent border-top-0">
                         <a href="/Hotel/Details/@hotel.Id" class="btn btn-primary btn-block">View Details</a>

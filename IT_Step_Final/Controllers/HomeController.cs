@@ -35,7 +35,18 @@ public class HomeController : Controller
         }
 
     }
-    
+    [HttpGet]
+    public async Task<IActionResult> Search(string query)
+    {
+        var hotels = await _bookingRelatedServices.GetAllAsync(new HotelModel() { Address = "", City = "", Name = "", PicturePath = "" });
+
+        if (!string.IsNullOrEmpty(query))
+        {
+            hotels = hotels.Where(h => h.Name.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+                          h.City.Contains(query, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
+        return View("Index",hotels);
+    }
     public IActionResult Privacy()
     {
         return View();
