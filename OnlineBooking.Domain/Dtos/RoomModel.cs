@@ -27,5 +27,7 @@ namespace OnlineBooking.Domain.Dtos
 
         [ForeignKey("Hoteli")]
         public long HotelId { get; set; }
+
+        public virtual RoomTypeModel RoomType { get; set; }
     }
 }

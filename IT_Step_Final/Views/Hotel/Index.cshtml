@@ -31,9 +31,16 @@
                     <td>@Html.DisplayFor(modelItem => item.City)</td>
                     <td>@Html.DisplayFor(modelItem => item.PicturePath)</td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary me-2"><i class="fas fa-edit"></i> რედაქტირება</a>
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info me-2"><i class="fas fa-info-circle"></i> დეტალები</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> წაშლა</a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">რედაქტირება</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">დეტალები</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">წაშლა</a>
+                        }
+                        else
+                        {
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">დეტალები</a>
+                        }
                     </td>
                 </tr>
             }

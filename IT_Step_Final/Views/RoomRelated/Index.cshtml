@@ -29,6 +29,9 @@
             <th>
                Hotel Id
             </th>
+            <th>
+                Picture
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -52,9 +55,19 @@
                     @Html.DisplayFor(modelItem => item.HotelId)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">რედაქტირება</a>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">დეტალები</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">წაშლა</a>
+                    <img src="@item.PicturePath" alt="Room picture" class="img-thumbnail" style="width: 100px; height: 100px;" />
+                </td>
+                <td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">რედაქტირება</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">დეტალები</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">წაშლა</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">დეტალები</a>
+                    }
                 </td>
             </tr>
         }

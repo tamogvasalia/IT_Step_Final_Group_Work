@@ -164,6 +164,17 @@ namespace IT_Step_Final.Controllers
                 return BadRequest($"Could not find {id}");
             }
         }
-        
+        [HttpGet]
+        public async Task<IActionResult> Search(string query)
+        {
+            var hotels = await bookrelate.GetAllAsync(new BookingModel());
+            if (!string.IsNullOrEmpty(query))
+            {
+                hotels = hotels.Where(h => h.checkInTime.ToString().Contains(query, StringComparison.OrdinalIgnoreCase) ||
+                              h.RoomId.ToString().Contains(query, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+            return View("Index", hotels);
+        }
+
     }
 }

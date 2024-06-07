@@ -22,6 +22,6 @@ namespace OnlineBooking.Domain.Dtos
 
         [Range(0, double.MaxValue)]
         public double totalPrice { get; set; } = 0;
-
+        public virtual RoomModel Room { get; set; }
     }
 }
