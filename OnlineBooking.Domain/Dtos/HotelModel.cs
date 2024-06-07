@@ -21,5 +21,7 @@ namespace OnlineBooking.Domain.Dtos
         [Required(ErrorMessage = "This field is required :)")]
         public required string PicturePath { get; set; }
 
+        public virtual IEnumerable<Room> Rooms { get; set; }
+
     }
 }

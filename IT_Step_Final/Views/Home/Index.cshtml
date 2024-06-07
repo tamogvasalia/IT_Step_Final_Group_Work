@@ -29,6 +29,24 @@
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title text-bold">@hotel.Name</h5>
                         <p class="card-text mt-auto">@hotel.Address</p>
+                        <div>
+                            <h6>Rooms:</h6>
+                            <ul class="list-unstyled">
+                                @foreach (var room in hotel.Rooms)
+                                {
+                                    <li>
+                                        <strong>@room.Name</strong> - @room.PricePerDay $/day - @if (room.isAvailable)
+                                        {
+                                            <span class="text-success">Available</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">Not Available</span>
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        </div>
                     </div>
                     <div class="card-footer bg-transparent border-top-0">
                         <a href="/Hotel/Details/@hotel.Id" class="btn btn-primary btn-block">View Details</a>

@@ -13,6 +13,7 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IbookingRelate _bookingRelatedServices;
+    private readonly IroomRelatedServices _roomRelatedServices;
 
     public HomeController(ILogger<HomeController> logger, IbookingRelate bookingRelatedServices)
     {
@@ -39,7 +40,6 @@ public class HomeController : Controller
     public async Task<IActionResult> Search(string query)
     {
         var hotels = await _bookingRelatedServices.GetAllAsync(new HotelModel() { Address = "", City = "", Name = "", PicturePath = "" });
-
         if (!string.IsNullOrEmpty(query))
         {
             hotels = hotels.Where(h => h.Name.Contains(query, StringComparison.OrdinalIgnoreCase) ||
